@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        $table->id();
+        $table->int('count');
+        $table->string('type');
+        $table->date('date');
+    
     }
 
     /**

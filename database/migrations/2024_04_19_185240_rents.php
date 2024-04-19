@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        $table->id();
+        $table->id('car_id');
+        $table->string('type');
+        $table->date('date');
     }
 
     /**

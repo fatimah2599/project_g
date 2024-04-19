@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        $table->id();
+        $table->string('name');
+        $table->string('brand');
+        $table->string('description');
+        $table->string('material');
+        $table->string('features');
+        $table->string('availabilityColors');
+        $table->double('price');
     }
 
     /**
