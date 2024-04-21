@@ -14,7 +14,7 @@ return new class extends Migration
         $table->id();
         $table->string('carModel');
         $table->string('day');
-        $table->int('time');
+        $table->integer('time');
     }
 
     /**

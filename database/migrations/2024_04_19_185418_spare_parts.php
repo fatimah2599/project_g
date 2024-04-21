@@ -16,7 +16,7 @@ return new class extends Migration
         $table->string('made');
         $table->string('model');
         $table->string('company');
-        $table->int('pieceNumber');
+        $table->integer('pieceNumber');
         $table->double('price');
     }
 

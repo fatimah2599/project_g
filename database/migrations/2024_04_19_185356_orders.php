@@ -21,7 +21,7 @@ return new class extends Migration
         $table->id('accessoryPart_id');
         $table->id('sparePart_id');
         $table->id('report_id');
-        $table->int('item');
+        $table->integer('item');
         $table->double('price');
         $table->date('date');
     }

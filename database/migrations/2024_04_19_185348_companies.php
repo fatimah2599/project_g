@@ -15,7 +15,7 @@ return new class extends Migration
         $table->string('name');
         $table->string('capacity');
         $table->string('address');
-        $table->int('cost');
+        $table->integer('cost');
         $table->string('quality');
         $table->string('founding');
         $table->string('pricing');

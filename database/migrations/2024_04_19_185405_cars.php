@@ -23,13 +23,13 @@ return new class extends Migration
         $table->string('carTransmission');
         $table->string('propulsionType');
         $table->string('enginType');
-        $table->int('engineSize');
-        $table->int('amount');
-        $table->int('status');
-        $table->int('productionYear');
-        $table->int('numberOfRented');
+        $table->integer('engineSize');
+        $table->integer('amount');
+        $table->integer('status');
+        $table->integer('productionYear');
+        $table->integer('numberOfRented');
         $table->double('fuelTankCapacity');
-        $table->int('millage');
+        $table->integer('millage');
         $table->double('price');
         $table->date('date');
     }
