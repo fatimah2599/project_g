@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $table->id();
-        $table->string('name');
-        $table->string('brand');
-        $table->string('description');
-        $table->string('material');
-        $table->string('features');
-        $table->string('availabilityColors');
-        $table->double('price');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id');
+            $table->double('total_price');
+            $table->date('date');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('orders');
     }
 };

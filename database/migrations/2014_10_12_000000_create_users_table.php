@@ -20,10 +20,14 @@ return new class extends Migration
             $table->string('password');
             $table->string('confirm_password');
             $table->rememberToken();
-            //$table->foreignId('current_team_id')->nullable();
-           // $table->string('profile_photo_path', 2048)->nullable();
-            $table->double('phone');
-            $table->string('role');
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
+            $table->integer('phone');
+            $table->integer('role');
+            $table->string('car_color');
+            $table->integer('plate_number');
+            $table->string('car_model');
+            $table->string('car_brand');
             $table->timestamps();
         });
     }

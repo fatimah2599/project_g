@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $table->id();
-        $table->string('name');
-        $table->string('capacity');
-        $table->string('address');
-        $table->integer('cost');
-        $table->string('quality');
-        $table->string('founding');
-        $table->string('pricing');
-    
+        Schema::create('internal_maintenances', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id');
+            $table->foreignId('user_id');
+            $table->foreignId('order_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('internal_maintenances');
     }
 };

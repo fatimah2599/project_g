@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $table->id('company_id');
-        $table->id('sale_id');
-        $table->id('offer_id');
+        Schema::create('cars', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id');
         $table->string('brand');
         $table->string('name');
-        $table->double('price');
         $table->string('color');
         $table->string('model');
-        $table->string('color');
         $table->string('carTransmission');
         $table->string('propulsionType');
         $table->string('enginType');
@@ -32,14 +30,15 @@ return new class extends Migration
         $table->integer('millage');
         $table->double('price');
         $table->date('date');
+            $table->timestamps();
+        });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('cars');
     }
 };
