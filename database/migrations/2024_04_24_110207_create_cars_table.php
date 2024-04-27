@@ -14,22 +14,22 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id');
-        $table->string('brand');
-        $table->string('name');
-        $table->string('color');
-        $table->string('model');
-        $table->string('carTransmission');
-        $table->string('propulsionType');
-        $table->string('enginType');
-        $table->integer('engineSize');
-        $table->integer('amount');
-        $table->integer('status');
-        $table->integer('productionYear');
-        $table->integer('numberOfRented');
-        $table->double('fuelTankCapacity');
-        $table->integer('millage');
-        $table->double('price');
-        $table->date('date');
+            $table->string('brand');
+            $table->string('name');
+            $table->string('color');
+            $table->string('model');
+            $table->string('car_transmission');
+            $table->string('propulsion_type');
+            $table->string('engine_type');
+            $table->integer('engine_size');
+            $table->integer('amount');
+            $table->integer('status');
+            $table->integer('production_year');
+            $table->integer('number_of_rented');
+            $table->double('fuel_tank_capacity');
+            $table->integer('millage');
+            $table->double('price');
+            $table->date('date');
             $table->timestamps();
         });
     }

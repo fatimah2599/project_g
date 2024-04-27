@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('car_id');
             $table->integer('period');
-                $table->integer('status');
-                $table->string('info');
-                $table->string('type');
-                $table->date('date');
-                $table->integer('value');
-                $table->double('cost');
+            $table->integer('status');
+            $table->string('info');
+            $table->string('type');
+            $table->date('date');
+            $table->integer('value');
+            $table->double('cost');
             $table->timestamps();
         });
     }

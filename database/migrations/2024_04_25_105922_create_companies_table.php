@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('founding');
             $table->double('pricing');
             $table->timestamps();
-
         });
     }
 

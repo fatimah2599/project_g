@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id');
             $table->foreignId('car_id');
-             $table->integer('count');
-             $table->string('type');
+            $table->integer('count');
+            $table->string('type');
             $table->double('price');
             $table->timestamps();
         });

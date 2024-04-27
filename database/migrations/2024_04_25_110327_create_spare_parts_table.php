@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('made');
             $table->string('model');
-            $table->integer('pieceNumber');
+            $table->integer('piece_number');
             $table->double('price');
             $table->timestamps();
         });
