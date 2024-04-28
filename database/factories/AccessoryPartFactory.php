@@ -19,7 +19,7 @@ class AccessoryPartFactory extends Factory
         return [
             'name' => fake()->randomElement(['test', 'test']),
             'brand' => fake()->randomElement(['BMW', 'Tesla']),
-            'description' => fake()->paragraph(),
+            'description' => fake()->randomElement(['hhhhhhhhhhh', 'Tesla']),
             'material' => fake()->randomElement(['iron', 'test material']),
             'price' => rand(1, 1000),
             'feature' => fake()->randomElement(['test feature', 'test feature']),

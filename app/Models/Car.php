@@ -14,7 +14,7 @@ class Car extends Model
         'id',
         'name',
         'brand',
-        'count',
+        'color',
         'engine_type',
         'price',
         'engine_size',
