@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AccessoryPartSeeder::class);
         $this->call(AccessoryPartsOrderSeeder::class);
-        $this->call(carSeeder::class);
+        $this->call(CarSeeder::class);
     }
 }

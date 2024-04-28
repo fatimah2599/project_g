@@ -20,7 +20,7 @@ class CarFactory extends Factory
      * @return array<string, mixed>
      */
 
-//     $factory->define(App\Car::class, function (Faker $faker)
+    //     $factory->define(App\Car::class, function (Faker $faker)
     public function definition(): array
     {
         $randomDate = Carbon::now()->subDays(rand(1, 365));
@@ -41,34 +41,33 @@ class CarFactory extends Factory
             'color' => fake()->randomElement(['red', 'black', 'white', 'blue']),
 
 
-            'company_id' =>  Company::all()->random()->id,
+            // 'company_id' =>  Company::all()->random()->id,
+            'company_id' => fake()->randomElement([1, 2, 3]),
             'production_year' => rand(1960, 2024),
             'date' => $randomDate,
-            //'updated_at' => Carbon::now(),
-            //'created_at' => Carbon::now(),
         ];
     }
 }
 /**
  *    *'production_year', yet
-           *'date',
-             *'company_id',
- * 
- * 
- * 
+ *'date',
+ *'company_id',
+ *
+ *
+ *
  * 'id',
-  *      'name',  done
-   *     'brand',  done
-    *    'amount', done
-     *   'engine_type',  done 
-      *  'price',  done
-       * 'engine_size', done
-        *'car_transmission', done
-        *'model', done
-        *'propulsion_type', done
-        *'status', done
-        *'number_of_rented', done
-        *'fuel_tank_capacity', done
-        *'millage', done
-        *'color' done
+ *      'name',  done
+ *     'brand',  done
+ *    'amount', done
+ *   'engine_type',  done
+ *  'price',  done
+ * 'engine_size', done
+ *'car_transmission', done
+ *'model', done
+ *'propulsion_type', done
+ *'status', done
+ *'number_of_rented', done
+ *'fuel_tank_capacity', done
+ *'millage', done
+ *'color' done
  */
