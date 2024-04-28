@@ -13,6 +13,6 @@ class InternalMaintenanceSeeder extends Seeder
      */
     public function run(): void
     {
-        ExternalMaintenance::factory()->count(50)->create();
+        InternalMaintenance::factory()->count(50)->create();
     }
 }

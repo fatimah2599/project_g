@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrdersSparePart;
 use App\Models\Reservation;
 use App\Models\Sale;
+use App\Models\SparePart;
 
 use Illuminate\Database\Seeder;
 
@@ -30,10 +31,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanySeeder::class);
         $this->call(ExternalMaintenanceSeeder::class);
         $this->call(InternalMaintenanceSeeder::class);
-        $this->call(Order::class);
-        $this->call(OrdersSparePart::class);
-        $this->call(Reservation::class);
-        $this->call(Sale::class);
-        $this->call(SparePart::class);
+        $this->call(OrderSeeder::class);
+        $this->call(OrdersSparePartSeeder::class);
+        $this->call(ReservationSeeder::class);
+        $this->call(SaleSeeder::class);
+        $this->call(SparePartSeeder::class);
     }
 }
