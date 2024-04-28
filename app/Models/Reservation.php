@@ -9,6 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
     protected $table = "reservations";
+    protected $fillable =['id','user_id','car_id','period','status','info','type','date','value','cost'];
     protected $primarykey= "id";
     public $timestamps = true;
 }

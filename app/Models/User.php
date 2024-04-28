@@ -23,10 +23,20 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $table = "users";
     protected $fillable = [
-        'name',
+        'firstName',
+        'lastName',
         'email',
         'password',
+        'confirm_password',
+        'phone',
+        'role',
+        'car_color',
+        'plate_number',
+        'car_model',
+        'car_brand'
     ];
 
     /**
@@ -58,4 +68,7 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected $primarykey= "id";
+     public $timestamps = true;
 }

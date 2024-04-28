@@ -9,6 +9,7 @@ class InternalMaintenance extends Model
 {
     use HasFactory;
     protected $table = "internal_maintenances";
+    protected $fillable =['id','company_id','user_id','order_id'];
     protected $primarykey= "id";
     public $timestamps = true;
 }
