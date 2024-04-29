@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
-            $table->foreignId('car_id');
+            $table->foreignId('order_id')->nullable();
+            $table->foreignId('car_id')->nullable();
             $table->integer('count');
             $table->string('type');
             $table->double('price');
