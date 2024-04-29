@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\AccessoryPartsOrder;
 
 class AccessoryPart extends Model
 {
@@ -24,4 +25,10 @@ class AccessoryPart extends Model
 
     protected $primarykey = "id";
     public $timestamps = true;
+
+
+    public function AccessoryPartsOrder()
+    {
+        return $this->belongsTo(AccessoryPartsOrder::class);
+    }
 }
