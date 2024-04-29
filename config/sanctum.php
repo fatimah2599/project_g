@@ -21,6 +21,11 @@ return [
         Sanctum::currentApplicationUrlWithPort()
     ))),
 
+    // 'stateful' => explode(',', env(
+    //     'SANCTUM_STATEFUL_DOMAINS', 'yourdomain.com'
+    // )),
+
+
     /*
     |--------------------------------------------------------------------------
     | Sanctum Guards

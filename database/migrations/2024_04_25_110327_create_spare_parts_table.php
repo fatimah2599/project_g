@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spare_parts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id');
+            $table->foreignId('company_id')->nullable();
             $table->string('name');
             $table->string('made');
             $table->string('model');

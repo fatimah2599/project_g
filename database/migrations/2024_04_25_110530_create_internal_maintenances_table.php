@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('internal_maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id');
-            $table->foreignId('user_id');
-            $table->foreignId('order_id');
+            $table->foreignId('company_id')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('order_id')->nullable();
             $table->timestamps();
         });
     }

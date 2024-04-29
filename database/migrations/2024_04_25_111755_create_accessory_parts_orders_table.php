@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accessory_parts_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
-            $table->foreignId('accessory_part_id');
+            $table->foreignId('order_id')->nullable();
+            $table->foreignId('accessory_part_id')->nullable();
             $table->integer('count');
             $table->double('price');
             $table->timestamps();

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders_spare_parts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
-            $table->foreignId('spare_part_id');
+            $table->foreignId('order_id')->nullable();
+            $table->foreignId('spare_part_id')->nullable();
             $table->integer('count');
             $table->double('price');
             $table->timestamps();
