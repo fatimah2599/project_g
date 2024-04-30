@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\SparePart;
 
@@ -18,7 +19,7 @@ class SparePartFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_id' => fake()->randomElement([1, 2, 3]),
+            'company_id' => Company::all()->random()->id,
             'price' => rand(1100, 5100),
             'piece_number' => rand(0, 500),
             'name' => fake()->randomElement(['hhookk', 'pjjkkk']),
@@ -27,5 +28,3 @@ class SparePartFactory extends Factory
         ];
     }
 }
-
-

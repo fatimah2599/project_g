@@ -4,8 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Car;
-
-
+use App\Models\Company;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
@@ -41,8 +40,7 @@ class CarFactory extends Factory
             'color' => fake()->randomElement(['red', 'black', 'white', 'blue']),
 
 
-            // 'company_id' =>  Company::all()->random()->id,
-            'company_id' => fake()->randomElement([1, 2, 3]),
+            'company_id' =>  Company::all()->random()->id,
             'production_year' => rand(1960, 2024),
             'date' => $randomDate,
         ];

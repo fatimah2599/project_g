@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Car;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 use App\Models\Reservation;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reservation>
@@ -20,8 +22,8 @@ class ReservationFactory extends Factory
     {
         $randomDate = Carbon::now()->subDays(rand(1, 365));
         return [
-            'user_id' => fake()->randomElement([1, 2, 3]),
-            'car_id' => fake()->randomElement([1, 2, 3]),
+            'user_id' => User::all()->random()->id,
+            'car_id' => Car::all()->random()->id,
             'cost' => rand(1100, 5100),
             'value' => rand(200, 500),
             'period' => rand(300, 700),
@@ -32,6 +34,3 @@ class ReservationFactory extends Factory
         ];
     }
 }
-
-
-

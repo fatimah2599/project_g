@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Company;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
  */
@@ -24,8 +25,7 @@ class CompanyFactory extends Factory
             'quality' => fake()->randomElement(['good', 'super']),
             'founding' => fake()->randomElement(['always', 'often']),
             'pricing' => rand(1000, 5000)
-           
+
         ];
     }
 }
-

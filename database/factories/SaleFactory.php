@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Car;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Sale;
 
@@ -18,8 +20,8 @@ class SaleFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => fake()->randomElement([1, 2, 3]),
-            'car_id' => fake()->randomElement([1, 2, 3]),
+            'order_id' => Order::all()->random()->id,
+            'car_id' => Car::all()->random()->id,
             'price' => rand(1100, 5100),
             'count' => rand(0, 100),
             'type' => fake()->randomElement(['online', 'direct']),

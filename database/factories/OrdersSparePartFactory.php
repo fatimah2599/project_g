@@ -2,8 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\OrdersSparePart;
+use App\Models\SparePart;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrdersSparePart>
  */
@@ -17,8 +20,8 @@ class OrdersSparePartFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => fake()->randomElement([1, 2, 3]),
-            'spare_part_id' => fake()->randomElement([1, 2, 3]),
+            'order_id' => Order::all()->random()->id,
+            'spare_part_id' => SparePart::all()->random()->id,
             'price' => rand(1100, 5100),
             'count' => rand(1, 100)
         ];
