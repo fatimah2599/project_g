@@ -42,14 +42,14 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'confirm_password' => ['required', 'string', 'min:8'],
-            'phone' => ['required', 'string' ]
+            'phone' => ['required', 'string']
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->all() ;
+            return $validator->errors()->all();
         }
-        
-        $user = User:: query->create([
+
+        $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $request->email,
@@ -64,7 +64,4 @@ class AuthController extends Controller
         $data["access_token"] = $tokenResult->accessToken;
         return response()->json($data, Response::HTTP_OK);
     }
-
-
 }
-
