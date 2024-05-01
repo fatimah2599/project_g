@@ -24,10 +24,10 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('phone');
             $table->integer('role');
-            $table->string('car_color');
-            $table->integer('plate_number')->unique();
-            $table->string('car_model');
-            $table->string('car_brand');
+            $table->string('car_color')->nullable();
+            $table->integer('plate_number')->unique()->nullable();
+            $table->string('car_model')->nullable();
+            $table->string('car_brand')->nullable();
             $table->timestamps();
         });
     }

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,12 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum'])->group(function () {
-
 });
 
-Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
-Route::post('/loginAdmin', [\App\Http\Controllers\AuthController::class, 'loginAdmin']);
-Route::post('/loginUser', [\App\Http\Controllers\AuthController::class, 'loginUser']);
+#region user
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+#end region user
 
 
-
+#region admin
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AuthController::class, 'loginAdmin']);
+});
+#end region admin

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\ApiResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +12,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function loginUser(Request $request)
+    use ApiResponses;
+
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -19,19 +22,32 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'login failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+            $this->sendResponse([
+                'data' => [],
+                'message' => 'The provided credentials are incorrect.',
+                'code' => 'UNAUTHORIZED',
+                'isSuccess' => false,
             ]);
         }
 
         $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('car 4 u')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token], 200);
+        return $this->sendResponse([
+            'data' => ['user' => $user, 'token' => $token],
+            'message' => 'login Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
 
     public function register(Request $request)
@@ -41,27 +57,38 @@ class AuthController extends Controller
             'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'confirm_password' => ['required', 'string', 'min:8'],
+            'confirm_password' => ['required', 'string', 'min:8', 'same:password'],
             'phone' => ['required', 'string']
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->all();
+            return $this->sendResponse([
+                'data' => $validator->errors()->all(),
+                'message' => 'validation error',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
         }
 
         $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'confirm_password' => $request->confirm_password,
+            'password' => bcrypt($request->password),
+            'confirm_password' => bcrypt($request->confirm_password),
             'phone' => $request->phone,
+            'role' => 0,
+
         ]);
 
-        $tokenResult = $user->createToken('personal access token');
         $data["user"] = $user;
-        $data["token_type"] = 'Bearer';
-        $data["access_token"] = $tokenResult->accessToken;
-        return response()->json($data, Response::HTTP_OK);
+        $data['token'] = $user->createToken('car 4 u')->plainTextToken;
+
+        return $this->sendResponse([
+            'data' => $data,
+            'message' => 'register successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
 }
