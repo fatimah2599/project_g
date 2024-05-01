@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\OrdersSparePart;
+use App\Models\Company;
 
 class SparePart extends Model
 {
@@ -17,5 +18,10 @@ class SparePart extends Model
     public function OrdersSparePart()
     {
         return $this->belongsTo(OrdersSparePart::class);
+    }
+
+    public function Company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }

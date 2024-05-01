@@ -10,6 +10,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Reservation;
+use App\Models\Order;
+use App\Models\ExternalMaintenance;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -71,4 +75,19 @@ class User extends Authenticatable
 
     protected $primarykey= "id";
      public $timestamps = true;
+
+     public function Reservation()
+     {
+         return $this->hasMany(Reservation::class);
+     }
+
+     public function ExternalMaintenance()
+     {
+         return $this->hasMany(ExternalMaintenance::class);
+     }
+
+     public function Order()
+     {
+         return $this->hasMany(Order::class);
+     }
 }

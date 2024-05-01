@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Sale;
+use App\Models\Reservation;
+use App\Models\Company;
 
 class Car extends Model
 {
@@ -34,4 +37,19 @@ class Car extends Model
 
     protected $primarykey = "id";
     public $timestamps = true;
+
+    public function Sale()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function Reservation()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function Company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
