@@ -12,7 +12,8 @@ class OrdersSparePartController extends Controller
      */
     public function index()
     {
-        //
+        $OrdersSparePart = OrdersSparePart::all();
+        return response()->json ( $OrdersSparePart, Response::HTTP_SHOWED);
     }
 
     /**

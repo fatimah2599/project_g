@@ -24,7 +24,27 @@ class SparePartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'company_id'=>'required',
+            'name'=>'required',
+            'made'=>'required',
+            'model'=>'required',
+            'piece_number'=>'required',
+            'price'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
+            ])
+    
+            $inputSparePart = $request->all();
+            if($image = $request->file('image')){
+                $destinationPath ='/images/';
+                $SparePartImage = date('YmdHis').".".$image->getClientOrginalExtension();
+                $image=move($destinationPath, $SparePartImage);
+                $inputSparePart['image'] = "$SparePartImage";
+            }
+    
+            SparePart::create($inputSparePart);
+    
+            return response()->json ( $inputSparePart, Response::HTTP_ADDED);
     }
 
     /**

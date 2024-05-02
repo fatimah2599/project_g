@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('millage');
             $table->double('price');
             $table->date('date');
+            $table->string('image');
             $table->timestamps();
         });
     }

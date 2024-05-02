@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('price');
             $table->string('feature');
             $table->string('availability_colors');
+            $table->string('image');
             $table->timestamps();
         });
     }

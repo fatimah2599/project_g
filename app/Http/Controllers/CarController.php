@@ -22,7 +22,38 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'name',
+        'brand',
+        'color',
+        'engine_type',
+        'price',
+        'engine_size',
+        'car_transmission',
+        'model',
+        'propulsion_type',
+        'production_year',
+        'amount',
+        'status',
+        'number_of_rented',
+        'company_id',
+        'fuel_tank_capacity',
+        'millage',
+        'date'
+        'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
+        ])
+    
+            $inputCar = $request->all();
+            if($image = $request->file('image')){
+                $destinationPath ='/images/';
+                $CarImage = date('YmdHis').".".$image->getClientOrginalExtension();
+                $image=move($destinationPath, $CarImage);
+                $inputCar['image'] = "$CarImage";
+            }
+    
+            Car::create($inputCar);
+    
+            return response()->json ( $inputCar, Response::HTTP_ADDED);
     }
 
     /**

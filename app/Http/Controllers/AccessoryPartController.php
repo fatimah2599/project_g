@@ -23,7 +23,28 @@ class AccessoryPartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'name'=>'required',
+        'brand'=>'required',
+        'description'=>'required',
+        'material'=>'required',
+        'price'=>'required',
+        'feature'=>'required',
+        'availability_colors'=>'required'
+        'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
+        ])
+
+        $inputAccessoryPart = $request->all();
+        if($image = $request->file('image')){
+            $destinationPath ='/images/';
+            $AccessoryPartImage = date('YmdHis').".".$image->getClientOrginalExtension();
+            $image=move($destinationPath, $AccessoryPartImage);
+            $inputAccessoryPart['image'] = "$AccessoryPartImage";
+        }
+
+        AccessoryPart::create($inputAccessoryPart);
+
+        return response()->json ( $inputAccessoryPart, Response::HTTP_ADDED);
     }
 
     /**

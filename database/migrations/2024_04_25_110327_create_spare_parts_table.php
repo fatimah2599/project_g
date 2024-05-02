@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('model');
             $table->integer('piece_number');
             $table->double('price');
+            $table->string('image');
             $table->timestamps();
         });
     }

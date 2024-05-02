@@ -19,7 +19,8 @@ class AccessoryPart extends Model
         'material',
         'price',
         'feature',
-        'availability_colors'
+        'availability_colors',
+        'image'
     ];
 
 

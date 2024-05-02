@@ -12,7 +12,8 @@ class AccessoryPartsOrderController extends Controller
      */
     public function index()
     {
-        //
+        $AccessoryPartsOrders = AccessoryPartsOrder::all();
+        return response()->json ( $AccessoryPartsOrders, Response::HTTP_SHOWED);
     }
 
     /**
