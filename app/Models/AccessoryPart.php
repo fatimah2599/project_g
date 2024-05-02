@@ -27,8 +27,8 @@ class AccessoryPart extends Model
     public $timestamps = true;
 
 
-    public function AccessoryPartsOrder()
+    public function accessoryPartOrder()
     {
-        return $this->belongsTo(AccessoryPartsOrder::class);
+        return $this->belongsTo(AccessoryPartsOrder::class,'accessory_parts_orders_id');
     }
 }

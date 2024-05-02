@@ -15,13 +15,18 @@ class InternalMaintenance extends Model
     protected $primarykey= "id";
     public $timestamps = true;
 
-    public function Company()
+    public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 
-    public function User()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class,'order_id');
     }
 }

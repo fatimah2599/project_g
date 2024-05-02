@@ -24,13 +24,13 @@ class AccessoryPartsOrder extends Model
     protected $primarykey = "id";
     public $timestamps = true;
 
-    public function AccessoryPart()
+    public function accessoryParts()
     {
-        return $this->hasMany(AccessoryPart::class);
+        return $this->belongsTo(AccessoryPart::class,'accessory_part_id');
     }
 
-    public function Order()
+    public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class,'order_id');
     }
 }

@@ -15,13 +15,13 @@ class Reservation extends Model
     protected $primarykey= "id";
     public $timestamps = true;
 
-    public function Car()
+    public function car()
     {
-        return $this->belongsTo(Car::class);
+        return $this->belongsTo(Car::class,'car_id');
     }
 
-    public function User()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 }

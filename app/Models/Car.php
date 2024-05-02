@@ -38,18 +38,18 @@ class Car extends Model
     protected $primarykey = "id";
     public $timestamps = true;
 
-    public function Sale()
+    public function sales()
     {
         return $this->hasMany(Sale::class);
     }
 
-    public function Reservation()
+    public function reservations()
     {
         return $this->hasMany(Reservation::class);
     }
 
-    public function Company()
+    public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 }

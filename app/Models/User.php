@@ -76,17 +76,22 @@ class User extends Authenticatable
     protected $primarykey= "id";
      public $timestamps = true;
 
-     public function Reservation()
+     public function reservations()
      {
          return $this->hasMany(Reservation::class);
      }
 
-     public function ExternalMaintenance()
+     public function externalMaintenances()
      {
          return $this->hasMany(ExternalMaintenance::class);
      }
 
-     public function Order()
+     public function internalMaintenances()
+     {
+         return $this->hasMany(ExternalMaintenance::class);
+     }
+
+     public function orders()
      {
          return $this->hasMany(Order::class);
      }

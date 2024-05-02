@@ -17,22 +17,22 @@ class Company extends Model
         protected $primarykey= "id";
     public $timestamps = true;
 
-    public function Car()
+    public function cars()
     {
         return $this->hasMany(Car::class);
     }
 
-    public function ExternalMaintenance()
+    public function externalMaintenances()
     {
         return $this->hasMany(ExternalMaintenance::class);
     }
 
-    public function InternalMaintenance()
+    public function internalMaintenances()
     {
         return $this->hasMany(InternalMaintenance::class);
     }
 
-    public function SparePart()
+    public function spareParts()
     {
         return $this->hasMany(SparePart::class);
     }

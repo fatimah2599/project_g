@@ -19,33 +19,34 @@ class Order extends Model
     protected $primarykey= "id";
     public $timestamps = true;
 
-    public function AccessoryPartsOrder()
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function accessoryPartsOrder()
     {
         return $this->hasMany(AccessoryPartsOrder::class);
     }
 
     
-    public function OrdersSparePart()
+    public function ordersSparePart()
     {
         return $this->hasMany(OrdersSparePart::class);
     }
 
-    public function Sale()
+    public function sales()
     {
         return $this->hasMany(Sale::class);
     }
 
-    public function User()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function ExternalMaintenance()
+    public function externalMaintenances()
     {
         return $this->hasMany(ExternalMaintenance::class);
     }
 
-    public function InternalMaintenance()
+    public function internalMaintenances()
     {
         return $this->hasMany(InternalMaintenance::class);
     }

@@ -15,13 +15,13 @@ class OrdersSparePart extends Model
     protected $primarykey= "id";
     public $timestamps = true;
 
-    public function Order()
+    public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class,'order_id');
     }
 
-    public function SparePart()
+    public function spareParts()
     {
-        return $this->hasMany(SparePart::class);
+        return $this->belongsTo(SparePart::class,'spare_part_id');
     }
 }

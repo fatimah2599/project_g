@@ -15,13 +15,13 @@ class SparePart extends Model
     protected $primarykey = "id";
     public $timestamps = true;
 
-    public function OrdersSparePart()
+    public function ordersSparePart()
     {
-        return $this->belongsTo(OrdersSparePart::class);
+        return $this->hasMany(OrdersSparePart::class);
     }
 
-    public function Company()
+    public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 }
