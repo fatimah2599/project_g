@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccessoryPartController;
+use App\Http\Controllers\SparePartController ;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,20 +22,27 @@ use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/update/{id}', [UserController::class, 'update']);
+    Route::get('/index_cars', [CarController::class, 'index']);
+    Route::get('/index_accessoryparts', [AccessoryPartController::class, 'index']);
+    Route::get('/index_spareparts', [SparePartController::class, 'index']);
+    Route::post('/searchBYName', [CarController::class, 'searchBYName']);
+    Route::post('/searchBYColor', [CarController::class, 'searchBYColor']);
+    Route::post('/searchBYBrand', [CarController::class, 'searchBYBrand']);
+    Route::post('/AccessoryPart/searchBYName', [AccessoryPartController::class, 'searchBYName']);
+    Route::post('/SparePart/searchBYName', [SparePartController::class, 'searchBYName']);
 });
 
-#region user
+#admin user
 Route::post('/register', [AuthController::class, 'register']);
+#login
 Route::post('/login', [AuthController::class, 'login']);
-#end region user
+
 
 
 #region admin
-Route::prefix('admin')->group(function () {
-    Route::post('/login', [AuthController::class, 'loginAdmin']);
-});
+// Route::prefix('admin')->group(function () {
+//     Route::post('/login', [AuthController::class, 'loginAdmin']);
+// });
 #end region admin

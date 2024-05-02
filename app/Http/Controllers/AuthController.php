@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $this->sendResponse([
+           return $this->sendResponse([
                 'data' =>  $validator->errors()->all(),
                 'message' => 'login failed',
                 'code' => 'VALIDATION_ERROE',
@@ -30,8 +30,8 @@ class AuthController extends Controller
             ]);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            $this->sendResponse([
+        if (!Auth::attempt(request(['email', 'password']))) {
+            return $this->sendResponse([
                 'data' => [],
                 'message' => 'The provided credentials are incorrect.',
                 'code' => 'UNAUTHORIZED',
@@ -39,7 +39,6 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = Auth::user();
         $token = $user->createToken('car 4 u')->plainTextToken;
 
         return $this->sendResponse([
@@ -75,10 +74,9 @@ class AuthController extends Controller
             'lastName' => $request->lastName,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'confirm_password' => bcrypt($request->confirm_password),
-            'phone' => $request->phone,
+            'confirm_password'=> $request->confirm_password ,
+                        'phone' => $request->phone,
             'role' => 0,
-
         ]);
 
         $data["user"] = $user;

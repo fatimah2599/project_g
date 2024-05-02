@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SparePart;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+
 
 class SparePartController extends Controller
 {
@@ -12,7 +15,8 @@ class SparePartController extends Controller
      */
     public function index()
     {
-        //
+       $spareparts= SparePart::query()->get();
+        return response()->json ($spareparts , Response::HTTP_OK);
     }
 
     /**
@@ -45,5 +49,22 @@ class SparePartController extends Controller
     public function destroy(SparePart $sparePart)
     {
         //
+    }
+
+    public function searchBYName(Request $request, SparePart $name){
+        $validator = Validator::make($request->all(),[
+            'name' => ['required', 'string']
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $sparePart = SparePart::where('name', $request->input('name'))->first();
+
+        if (!$sparePart) {
+            return response()->json(' sparePart is not found', Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json( $sparePart, Response::HTTP_OK);
+
     }
 }
