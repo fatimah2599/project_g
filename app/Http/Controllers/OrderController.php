@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -20,10 +23,19 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
+{
+    $order = new Order;
+    $order->user_id = Auth::id(); // assuming the user is authenticated
+    $order->save();
 
+    $salesData = array_map(function($sale) {
+        return ['car_id' => $sale['car_id']];
+    }, $request->sales);
+
+    $order->sales()->createMany($salesData);
+
+    return response()->json(['message' => 'Order and sales created successfully'], 201);
+}
     /**
      * Display the specified resource.
      */
@@ -47,4 +59,6 @@ class OrderController extends Controller
     {
         //
     }
+
+
 }

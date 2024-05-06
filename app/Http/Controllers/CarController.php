@@ -39,10 +39,10 @@ class CarController extends Controller
         'company_id',
         'fuel_tank_capacity',
         'millage',
-        'date'
-        'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
-        ])
-    
+        'date',
+        'image'=>$image ,
+        ]);
+
             $inputCar = $request->all();
             if($image = $request->file('image')){
                 $destinationPath ='/images/';
@@ -50,9 +50,9 @@ class CarController extends Controller
                 $image=move($destinationPath, $CarImage);
                 $inputCar['image'] = "$CarImage";
             }
-    
+
             Car::create($inputCar);
-    
+
             return response()->json ( $inputCar, Response::HTTP_ADDED);
     }
 
@@ -131,8 +131,19 @@ class CarController extends Controller
         return response()->json($car, Response::HTTP_OK);
 
     }
+    public function sortByPrice(Request $request)
+    {
+        $cars = Car::orderBy('price')->get();
 
+        return response()->json($cars);
+    }
 
+    public function sortByYear(Request $request)
+    {
+        $cars = Car::orderBy('production_year')->get();
+
+        return response()->json($cars);
+    }
 
 
 }

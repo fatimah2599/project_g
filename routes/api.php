@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController ;
@@ -32,6 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/searchBYBrand', [CarController::class, 'searchBYBrand']);
     Route::post('/AccessoryPart/searchBYName', [AccessoryPartController::class, 'searchBYName']);
     Route::post('/SparePart/searchBYName', [SparePartController::class, 'searchBYName']);
+    Route::post('/Car/sortByPrice', [CarController::class, 'sortByPrice']);
+    Route::post('/Car/sortByYear', [CarController::class, 'sortByYear']);
+    Route::post('/Order/store', [OrderController::class, 'store']);
 });
 
 #admin user
