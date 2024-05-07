@@ -8,7 +8,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccessoryPartController;
-use App\Http\Controllers\SparePartController ;
+use App\Http\Controllers\SparePartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,30 +23,30 @@ use App\Http\Controllers\SparePartController ;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/update/{id}', [UserController::class, 'update']);
-    Route::get('/index_cars', [CarController::class, 'index']);
-    Route::get('/index_accessoryparts', [AccessoryPartController::class, 'index']);
-    Route::get('/index_spareparts', [SparePartController::class, 'index']);
-    Route::post('/searchBYName', [CarController::class, 'searchBYName']);
-    Route::post('/searchBYColor', [CarController::class, 'searchBYColor']);
-    Route::post('/searchBYBrand', [CarController::class, 'searchBYBrand']);
-    Route::post('/AccessoryPart/searchBYName', [AccessoryPartController::class, 'searchBYName']);
-    Route::post('/SparePart/searchBYName', [SparePartController::class, 'searchBYName']);
-    Route::post('/Car/sortByPrice', [CarController::class, 'sortByPrice']);
-    Route::post('/Car/sortByYear', [CarController::class, 'sortByYear']);
-    Route::post('/Order/store', [OrderController::class, 'store']);
-});
 
-#admin user
+#region user
 Route::post('/register', [AuthController::class, 'register']);
-#login
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/update/{id}', [UserController::class, 'update']);
+    Route::get('/indexCars', [CarController::class, 'index']);
+    Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
+    Route::get('/indexSpareparts', [SparePartController::class, 'index']);
+    Route::post('/searchByName', [CarController::class, 'searchBYName']);
+    Route::post('/searchByColor', [CarController::class, 'searchBYColor']);
+    Route::post('/searchByBrand', [CarController::class, 'searchBYBrand']);
+    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchBYName']);
+    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchBYName']);
+    Route::post('/car/sortByPrice', [CarController::class, 'sortByPrice']);
+    Route::post('/car/sortByYear', [CarController::class, 'sortByYear']);
+    Route::post('/order/store', [OrderController::class, 'store']);
+});
+#end region user
 
 
 #region admin
-// Route::prefix('admin')->group(function () {
-//     Route::post('/login', [AuthController::class, 'loginAdmin']);
-// });
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AuthController::class, 'loginAdmin']);
+});
 #end region admin

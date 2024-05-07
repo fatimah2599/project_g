@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Traits\ApiResponses;
 use Illuminate\Http\Response;
 use App\Models\AccessoryPart;
 use Illuminate\Http\Request;
@@ -9,13 +11,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AccessoryPartController extends Controller
 {
+    use ApiResponses;
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getAccessoryParts()
     {
-        $accessoryparts = AccessoryPart::query()->get();
-        return response()->json ( $accessoryparts, Response::HTTP_OK);
+        $accessoryparts = AccessoryPart::all();
+
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $accessoryparts,
+            'code' => "SUCCESS",
+        ]);
     }
 
     /**
@@ -24,27 +32,27 @@ class AccessoryPartController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'name'=>'required',
-        'brand'=>'required',
-        'description'=>'required',
-        'material'=>'required',
-        'price'=>'required',
-        'feature'=>'required',
-        'availability_colors'=>'required'
-        'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
-        ])
+            'name' => 'required',
+            'brand' => 'required',
+            'description' => 'required',
+            'material' => 'required',
+            'price' => 'required',
+            'feature' => 'required',
+            'availability_colors' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
 
-        $inputAccessoryPart = $request->all();
-        if($image = $request->file('image')){
-            $destinationPath ='/images/';
-            $AccessoryPartImage = date('YmdHis').".".$image->getClientOrginalExtension();
-            $image=move($destinationPath, $AccessoryPartImage);
-            $inputAccessoryPart['image'] = "$AccessoryPartImage";
-        }
+        // $inputAccessoryPart = $request->all();
+        // if ($image = $request->file('image')) {
+        //     $destinationPath = '/images/';
+        //     $AccessoryPartImage = date('YmdHis') . "." . $image->getClientOrginalExtension();
+        //     $image = move($destinationPath, $AccessoryPartImage);
+        //     $inputAccessoryPart['image'] = "$AccessoryPartImage";
+        // }
 
-        AccessoryPart::create($inputAccessoryPart);
+        // AccessoryPart::create($inputAccessoryPart);
 
-        return response()->json ( $inputAccessoryPart, Response::HTTP_ADDED);
+        // return response()->json($inputAccessoryPart, Response::HTTP_ADDED);
     }
 
     /**
@@ -72,8 +80,9 @@ class AccessoryPartController extends Controller
     }
 
 
-    public function searchBYName(Request $request, AccessoryPart $name){
-        $validator = Validator::make($request->all(),[
+    public function searchBYName(Request $request, AccessoryPart $name)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']
         ]);
         if ($validator->fails()) {
@@ -86,9 +95,5 @@ class AccessoryPartController extends Controller
         }
 
         return response()->json($accessoryPart, Response::HTTP_OK);
-
     }
-
-
-
 }

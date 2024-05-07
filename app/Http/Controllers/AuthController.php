@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-           return $this->sendResponse([
+            return $this->sendResponse([
                 'data' =>  $validator->errors()->all(),
                 'message' => 'login failed',
                 'code' => 'VALIDATION_ERROE',
@@ -39,7 +39,12 @@ class AuthController extends Controller
             ]);
         }
 
+        $user = User::where('email', $request->email)->first();
+
         $token = $user->createToken('car 4 u')->plainTextToken;
+
+        unset($user->password);
+        unset($user->confirm_password);
 
         return $this->sendResponse([
             'data' => ['user' => $user, 'token' => $token],
@@ -74,8 +79,8 @@ class AuthController extends Controller
             'lastName' => $request->lastName,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'confirm_password'=> $request->confirm_password ,
-                        'phone' => $request->phone,
+            'confirm_password' => $request->confirm_password,
+            'phone' => $request->phone,
             'role' => 0,
         ]);
 
