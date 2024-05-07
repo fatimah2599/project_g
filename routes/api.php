@@ -29,18 +29,26 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/update/{id}', [UserController::class, 'update']);
-    Route::get('/indexCars', [CarController::class, 'index']);
-    Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
-    Route::get('/indexSpareparts', [SparePartController::class, 'index']);
-    Route::post('/searchByName', [CarController::class, 'searchBYName']);
+Route::post('/update/{id}', [UserController::class, 'update']);
+
+    //api`s car
+ Route::post('/searchByName', [CarController::class, 'searchBYName']);
     Route::post('/searchByColor', [CarController::class, 'searchBYColor']);
     Route::post('/searchByBrand', [CarController::class, 'searchBYBrand']);
-    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchBYName']);
-    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchBYName']);
+    Route::get('/indexCars', [CarController::class, 'index']);
     Route::post('/car/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/car/sortByYear', [CarController::class, 'sortByYear']);
-    Route::post('/order/store', [OrderController::class, 'store']);
+//api`s AccessoryPart
+    Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
+    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchBYName']);
+
+//api`s SparePart
+    Route::get('/indexSpareparts', [SparePartController::class, 'index']);
+    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchBYName']);
+
+
+    //api`s Order
+    Route::post('/store', [OrderController::class, 'store']);
 });
 #end region user
 
