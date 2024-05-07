@@ -24,7 +24,7 @@ class AccessoryPartFactory extends Factory
             'price' => rand(1, 1000),
             'feature' => fake()->randomElement(['test feature', 'test feature']),
             'availability_colors' => fake()->randomElement(['red', 'black', 'white', 'blue']),
-
+            'image' => fake()->image(),
         ];
     }
 }

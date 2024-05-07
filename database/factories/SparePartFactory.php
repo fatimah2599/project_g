@@ -25,6 +25,7 @@ class SparePartFactory extends Factory
             'name' => fake()->randomElement(['hhookk', 'pjjkkk']),
             'made' => fake()->randomElement(['kkge', 'lkppo']),
             'model' => fake()->randomElement(['jj100', 'kk500']),
+            'image' => fake()->image()
         ];
     }
 }

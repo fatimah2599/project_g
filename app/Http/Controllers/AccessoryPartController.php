@@ -29,30 +29,59 @@ class AccessoryPartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeAccessoryPart(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'brand' => 'required',
-            'description' => 'required',
-            'material' => 'required',
-            'price' => 'required',
-            'feature' => 'required',
-            'availability_colors' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'brand' => 'required',
+                'description' => 'required',
+                'material' => 'required',
+                'price' => 'required|numeric',
+                'feature' => 'required',
+                'availability_colors' => 'required|array',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $accessoryPart = new AccessoryPart;
+        $accessoryPart->name = $request->name;
+        $accessoryPart->brand = $request->brand;
+        $accessoryPart->feature = $request->feature;
+        $accessoryPart->material = $request->material;
+        $accessoryPart->availability_colors = implode(',', $request->availability_colors);
+        $accessoryPart->price = $request->price;
+        $accessoryPart->description = $request->description;
+        // process image
+        if ($request->file('image')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->image->getClientOriginalExtension();
+            // path
+            $path = "/accessoryParts";
+            // store in public storage
+            $request->image->move(public_path($path), $imageName);
+            // store in database
+            $accessoryPart->image = $imageName;
+        }
+
+        $accessoryPart->save();
+
+        // return response
+        return $this->sendResponse([
+            'code' => "SUCCESS",
+            'data' => $accessoryPart,
+            'message' => 'Adding accessory part done succefully'
         ]);
-
-        // $inputAccessoryPart = $request->all();
-        // if ($image = $request->file('image')) {
-        //     $destinationPath = '/images/';
-        //     $AccessoryPartImage = date('YmdHis') . "." . $image->getClientOrginalExtension();
-        //     $image = move($destinationPath, $AccessoryPartImage);
-        //     $inputAccessoryPart['image'] = "$AccessoryPartImage";
-        // }
-
-        // AccessoryPart::create($inputAccessoryPart);
-
-        // return response()->json($inputAccessoryPart, Response::HTTP_ADDED);
     }
 
     /**

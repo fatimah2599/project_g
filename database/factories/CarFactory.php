@@ -38,7 +38,7 @@ class CarFactory extends Factory
             'fuel_tank_capacity' => rand(0, 1000),
             'millage' => rand(0, 1000),
             'color' => fake()->randomElement(['red', 'black', 'white', 'blue']),
-
+            'image' => fake()->image(),
 
             'company_id' =>  Company::all()->random()->id,
             'production_year' => rand(1960, 2024),
