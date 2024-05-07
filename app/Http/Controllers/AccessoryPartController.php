@@ -41,7 +41,7 @@ class AccessoryPartController extends Controller
                 'price' => 'required|numeric',
                 'feature' => 'required',
                 'availability_colors' => 'required|array',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
             ]
         );
 

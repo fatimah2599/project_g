@@ -6,8 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\Reservation;
@@ -18,9 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
     use Notifiable;
-    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +24,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     protected $table = "users";
+    protected $table = "users";
     protected $fillable = [
         'firstName',
         'lastName',
@@ -40,7 +36,8 @@ class User extends Authenticatable
         'car_color',
         'plate_number',
         'car_model',
-        'car_brand'
+        'car_brand',
+        'profile_photo_path'
     ];
 
     /**
@@ -64,35 +61,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $primarykey = "id";
+    public $timestamps = true;
 
-    protected $primarykey= "id";
-     public $timestamps = true;
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 
-     public function reservations()
-     {
-         return $this->hasMany(Reservation::class);
-     }
+    public function externalMaintenances()
+    {
+        return $this->hasMany(ExternalMaintenance::class);
+    }
 
-     public function externalMaintenances()
-     {
-         return $this->hasMany(ExternalMaintenance::class);
-     }
+    public function internalMaintenances()
+    {
+        return $this->hasMany(ExternalMaintenance::class);
+    }
 
-     public function internalMaintenances()
-     {
-         return $this->hasMany(ExternalMaintenance::class);
-     }
-
-     public function orders()
-     {
-         return $this->hasMany(Order::class);
-     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
