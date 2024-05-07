@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateProfile', [UserController::class, 'updateProfile']);
 
     // Car Api's
-    Route::get('/indexCars', [CarController::class, 'index']);
+    Route::get('/getCars', [CarController::class, 'getCars']);
     Route::post('/car/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/car/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchBYName']);

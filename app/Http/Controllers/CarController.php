@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Traits\ApiResponses;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -8,13 +10,18 @@ use Illuminate\Support\Facades\Validator;
 
 class CarController extends Controller
 {
+    use ApiResponses;
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getCars()
     {
-        $cars = Car::query()->get();
-        return response()->json ($cars , Response::HTTP_OK);
+        $cars = Car::all();
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $cars,
+            'code' => "SUCCESS",
+        ]);
     }
 
     /**
@@ -23,37 +30,37 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'name',
-        'brand',
-        'color',
-        'engine_type',
-        'price',
-        'engine_size',
-        'car_transmission',
-        'model',
-        'propulsion_type',
-        'production_year',
-        'amount',
-        'status',
-        'number_of_rented',
-        'company_id',
-        'fuel_tank_capacity',
-        'millage',
-        'date',
-        'image'=>$image ,
+            'name',
+            'brand',
+            'color',
+            'engine_type',
+            'price',
+            'engine_size',
+            'car_transmission',
+            'model',
+            'propulsion_type',
+            'production_year',
+            'amount',
+            'status',
+            'number_of_rented',
+            'company_id',
+            'fuel_tank_capacity',
+            'millage',
+            'date',
+            // 'image' => $image,
         ]);
 
-            $inputCar = $request->all();
-            if($image = $request->file('image')){
-                $destinationPath ='/images/';
-                $CarImage = date('YmdHis').".".$image->getClientOrginalExtension();
-                $image=move($destinationPath, $CarImage);
-                $inputCar['image'] = "$CarImage";
-            }
+        $inputCar = $request->all();
+        if ($image = $request->file('image')) {
+            // $destinationPath = '/images/';
+            // $CarImage = date('YmdHis') . "." . $image->getClientOrginalExtension();
+            // $image = move($destinationPath, $CarImage);
+            // $inputCar['image'] = "$CarImage";
+        }
 
-            Car::create($inputCar);
+        Car::create($inputCar);
 
-            return response()->json ( $inputCar, Response::HTTP_ADDED);
+        return response()->json($inputCar, Response::HTTP_ADDED);
     }
 
     /**
@@ -61,7 +68,6 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-
     }
 
     /**
@@ -80,8 +86,9 @@ class CarController extends Controller
         //
     }
 
-    public function searchBYName(Request $request, Car $name){
-        $validator = Validator::make($request->all(),[
+    public function searchBYName(Request $request, Car $name)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']
         ]);
         if ($validator->fails()) {
@@ -94,11 +101,11 @@ class CarController extends Controller
         }
 
         return response()->json($car, Response::HTTP_OK);
-
     }
 
-    public function searchBYColor(Request $request, Car $color){
-        $validator = Validator::make($request->all(),[
+    public function searchBYColor(Request $request, Car $color)
+    {
+        $validator = Validator::make($request->all(), [
             'color' => ['required', 'string']
         ]);
         if ($validator->fails()) {
@@ -111,12 +118,12 @@ class CarController extends Controller
         }
 
         return response()->json($car, Response::HTTP_OK);
-
     }
 
 
-    public function searchBYBrand(Request $request, Car $color){
-        $validator = Validator::make($request->all(),[
+    public function searchBYBrand(Request $request, Car $color)
+    {
+        $validator = Validator::make($request->all(), [
             'brand' => ['required', 'string']
         ]);
         if ($validator->fails()) {
@@ -129,7 +136,6 @@ class CarController extends Controller
         }
 
         return response()->json($car, Response::HTTP_OK);
-
     }
     public function sortByPrice(Request $request)
     {
@@ -144,6 +150,4 @@ class CarController extends Controller
 
         return response()->json($cars);
     }
-
-
 }
