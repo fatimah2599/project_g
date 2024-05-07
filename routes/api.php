@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Accessory Part Api's
     Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
     Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchBYName']);
+    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
 
     // User Api's
     Route::post('/update/{id}', [UserController::class, 'update']);

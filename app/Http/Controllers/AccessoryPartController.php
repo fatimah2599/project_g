@@ -109,20 +109,36 @@ class AccessoryPartController extends Controller
     }
 
 
-    public function searchBYName(Request $request, AccessoryPart $name)
+    public function searchByName(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
         }
-        $accessoryPart = AccessoryPart::where('name', $request->input('name'))->first();
+        $accessoryPart = AccessoryPart::where('name', $request->name)->first();
 
         if (!$accessoryPart) {
-            return response()->json('accessoryPart  is not found', Response::HTTP_NOT_FOUND);
+            return $this->sendResponse([
+                'data' =>  [],
+                'message' => 'Accessory Part Not Found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
         }
 
-        return response()->json($accessoryPart, Response::HTTP_OK);
+        $accessoryPart->availability_colors = explode(',', $accessoryPart->availability_colors);
+        return $this->sendResponse([
+            'data' =>  $accessoryPart,
+            'message' => 'Found successfully',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
 }
