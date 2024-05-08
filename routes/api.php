@@ -39,11 +39,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Car Api's
     Route::get('/getCars', [CarController::class, 'getCars']);
-    Route::post('/car/sortByPrice', [CarController::class, 'sortByPrice']);
-    Route::post('/car/sortByYear', [CarController::class, 'sortByYear']);
-    Route::post('/searchByName', [CarController::class, 'searchBYName']);
-    Route::post('/searchByColor', [CarController::class, 'searchBYColor']);
-    Route::post('/searchByBrand', [CarController::class, 'searchBYBrand']);
+    Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
+    Route::post('/sortByYear', [CarController::class, 'sortByYear']);
+    Route::post('/searchByName', [CarController::class, 'searchByName']);
+    Route::post('/searchByColor', [CarController::class, 'searchByColor']);
+    Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
 
     // SparePart Api's
     Route::get('/indexSpareparts', [SparePartController::class, 'index']);

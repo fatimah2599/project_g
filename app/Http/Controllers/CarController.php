@@ -86,68 +86,149 @@ class CarController extends Controller
         //
     }
 
-    public function searchBYName(Request $request, Car $name)
+    public function searchByName(Request $request, Car $name)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']
         ]);
+
         if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->sendResponse([
+                'data' => $validator->errors()->all(),
+                'message' => 'validation error',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
         }
         $car = Car::where('name', $request->input('name'))->first();
 
         if (!$car) {
-            return response()->json('Car is not found', Response::HTTP_NOT_FOUND);
+            return $this->sendResponse([
+                'data' => $car->errors(),
+                'message' => 'Car is not found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+          }
+
+            return $this->sendResponse([
+                'data' => $car,
+                'message' => 'searchByName Successful',
+                'code' => 'SUCCESS',
+                'isSuccess' => true,
+            ]);
         }
 
-        return response()->json($car, Response::HTTP_OK);
-    }
 
-    public function searchBYColor(Request $request, Car $color)
+
+    public function searchByColor(Request $request, Car $color)
     {
         $validator = Validator::make($request->all(), [
             'color' => ['required', 'string']
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->sendResponse([
+                'data' => $validator->errors()->all(),
+                'message' => 'validation error',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
         }
         $car = Car::where('color', $request->input('color'))->first();
 
         if (!$car) {
-            return response()->json('Car is not found', Response::HTTP_NOT_FOUND);
-        }
+            return $this->sendResponse([
+                'data' => $car->errors(),
+                'message' => 'Car is not found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+          }
 
-        return response()->json($car, Response::HTTP_OK);
+        return $this->sendResponse([
+            'data' => $car,
+            'message' => 'searchByColor Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
+
+
     }
+/////
 
-
-    public function searchBYBrand(Request $request, Car $color)
+    public function searchByBrand(Request $request, Car $color)
     {
         $validator = Validator::make($request->all(), [
             'brand' => ['required', 'string']
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->sendResponse([
+                'data' => $validator->errors()->all(),
+                'message' => 'validation error',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
         }
         $car = Car::where('brand', $request->input('brand'))->first();
 
         if (!$car) {
-            return response()->json('Car is not found', Response::HTTP_NOT_FOUND);
-        }
+            return $this->sendResponse([
+                'data' => $car->errors(),
+                'message' => 'Car is not found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+          }
 
-        return response()->json($car, Response::HTTP_OK);
+          return $this->sendResponse([
+            'data' => $car,
+            'message' => 'searchByBrand Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
+
+
     public function sortByPrice(Request $request)
     {
         $cars = Car::orderBy('price')->get();
+        if (!$cars) {
+            return $this->sendResponse([
+                'data' => $cars->errors(),
+                'message' => 'Car is not found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+          }
+        return $this->sendResponse([
+            'data' => $cars,
+            'message' => 'sortByPrice Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
 
-        return response()->json($cars);
     }
+
+
+
+
 
     public function sortByYear(Request $request)
     {
         $cars = Car::orderBy('production_year')->get();
-
-        return response()->json($cars);
+     if (!$cars) {
+            return $this->sendResponse([
+                'data' => $cars->errors(),
+                'message' => 'Car is not found',
+                'code' => 'CAR_NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+          }
+        return $this->sendResponse([
+            'data' => $cars,
+            'message' => 'sortByYear Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
 }
