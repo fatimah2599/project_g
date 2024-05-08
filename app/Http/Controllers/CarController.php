@@ -100,24 +100,24 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('name', $request->input('name'))->first();
+        $car = Car::where('name', $request->input('name'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
-
-            return $this->sendResponse([
-                'data' => $car,
-                'message' => 'searchByName Successful',
-                'code' => 'SUCCESS',
-                'isSuccess' => true,
-            ]);
         }
+
+        return $this->sendResponse([
+            'data' => $car,
+            'message' => 'Search By Name Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
+    }
 
 
 
@@ -134,27 +134,25 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('color', $request->input('color'))->first();
+        $car = Car::where('color', $request->input('color'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
 
         return $this->sendResponse([
             'data' => $car,
-            'message' => 'searchByColor Successful',
+            'message' => 'Search By Color Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
-
-
     }
-/////
+
 
     public function searchByBrand(Request $request, Car $color)
     {
@@ -169,20 +167,20 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('brand', $request->input('brand'))->first();
+        $car = Car::where('brand', $request->input('brand'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
 
-          return $this->sendResponse([
+        return $this->sendResponse([
             'data' => $car,
-            'message' => 'searchByBrand Successful',
+            'message' => 'Search By Brand Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
@@ -192,38 +190,33 @@ class CarController extends Controller
     public function sortByPrice(Request $request)
     {
         $cars = Car::orderBy('price')->get();
-        if (!$cars) {
+        if ($cars->isEmpty()) {
             return $this->sendResponse([
                 'data' => $cars->errors(),
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
         return $this->sendResponse([
             'data' => $cars,
-            'message' => 'sortByPrice Successful',
+            'message' => 'Sort By Price Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
-
     }
-
-
-
-
 
     public function sortByYear(Request $request)
     {
         $cars = Car::orderBy('production_year')->get();
-     if (!$cars) {
+        if (!$cars) {
             return $this->sendResponse([
-                'data' => $cars->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
-                'code' => 'CAR_NOT_FOUND',
+                'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
         return $this->sendResponse([
             'data' => $cars,
             'message' => 'sortByYear Successful',
