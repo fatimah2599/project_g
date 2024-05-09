@@ -19,6 +19,8 @@ class OrderController extends Controller
         return response()->json ( $Orders, Response::HTTP_SHOWED);
     }
 
+    //['id','user_id','total_price','date'];
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -36,6 +38,9 @@ class OrderController extends Controller
 
     return response()->json(['message' => 'Order and sales created successfully'], 201);
 }
+//$order->car_id = $request->input('car_id');
+
+
     /**
      * Display the specified resource.
      */

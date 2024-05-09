@@ -13,12 +13,15 @@ class SparePartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getSpareParts()
     {
-       $spareparts= SparePart::query()->get();
-        return response()->json ($spareparts , Response::HTTP_OK);
+        $cars = Car::all();
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $spare_parts,
+            'code' => "SUCCESS",
+        ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -32,19 +35,8 @@ class SparePartController extends Controller
             'piece_number'=>'required',
             'price'=>'required',
             'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
-            ])
-    
-            $inputSparePart = $request->all();
-            if($image = $request->file('image')){
-                $destinationPath ='/images/';
-                $SparePartImage = date('YmdHis').".".$image->getClientOrginalExtension();
-                $image=move($destinationPath, $SparePartImage);
-                $inputSparePart['image'] = "$SparePartImage";
-            }
-    
-            SparePart::create($inputSparePart);
-    
-            return response()->json ( $inputSparePart, Response::HTTP_ADDED);
+        ]);
+            
     }
 
     /**
@@ -71,20 +63,38 @@ class SparePartController extends Controller
         //
     }
 
-    public function searchBYName(Request $request, SparePart $name){
-        $validator = Validator::make($request->all(),[
+    
+    public function searchByNameSparePart(Request $request, SparePart $name)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']
         ]);
+
         if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->sendResponse([
+                'data' => $validator->errors()->all(),
+                'message' => 'validation error',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
         }
-        $sparePart = SparePart::where('name', $request->input('name'))->first();
+        $spare_part = SparePart::where('name', $request->input('name'))->get();
 
-        if (!$sparePart) {
-            return response()->json(' sparePart is not found', Response::HTTP_NOT_FOUND);
+        if ($car->isEmpty()) {
+            return $this->sendResponse([
+                'data' => [],
+                'message' => 'Spare Part is not found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
         }
 
-        return response()->json( $sparePart, Response::HTTP_OK);
-
+        return $this->sendResponse([
+            'data' => $car,
+            'message' => 'Search By Name Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
+
 }

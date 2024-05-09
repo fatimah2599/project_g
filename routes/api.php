@@ -46,11 +46,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
 
     // SparePart Api's
-    Route::get('/indexSpareparts', [SparePartController::class, 'index']);
-    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchBYName']);
+    Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
+    Route::post('searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
     // Order Api's
-    Route::post('/order/store', [OrderController::class, 'store']);
+    Route::post('addOrder', [OrderController::class, 'addOrder']);
 });
 #end region user
 
