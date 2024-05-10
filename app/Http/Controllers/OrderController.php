@@ -18,8 +18,6 @@ class OrderController extends Controller
         $Orders = Order::all();
         return response()->json ( $Orders, Response::HTTP_SHOWED);
     }
-
-    //['id','user_id','total_price','date'];
     
     /**
      * Store a newly created resource in storage.

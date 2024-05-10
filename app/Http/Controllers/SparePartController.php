@@ -25,19 +25,60 @@ class SparePartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    
+    public function storeSparePart(Request $request)
     {
-        $request->validate([
-            'company_id'=>'required',
-            'name'=>'required',
-            'made'=>'required',
-            'model'=>'required',
-            'piece_number'=>'required',
-            'price'=>'required',
-            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg'
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'company_id' => 'required',
+                'made' => 'required',
+                'model' => 'required',
+                'piece_number' => 'required|numeric',
+                'price' => 'required|numeric',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $sparePart = new SparePart;
+        $sparePart->name = $request->name;
+        $sparePart->company_id = $request->company_id;
+        $sparePart->model = $request->model;
+        $sparePart->made = $request->made;
+        $sparePart->piece_number= $request->piece_number;
+        $sparePart->price = $request->price;
+        // process image
+        if ($request->file('image')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->image->getClientOriginalExtension();
+            // path
+            $path = "/spareParts";
+            // store in public storage
+            $request->image->move(public_path($path), $imageName);
+            // store in database
+            $sparePart->image = $imageName;
+        }
+
+        $sparePart->save();
+
+        // return response
+        return $this->sendResponse([
+            'code' => "SUCCESS",
+            'data' => $sparePart,
+            'message' => 'Adding spare part done succefully'
         ]);
-            
     }
+
 
     /**
      * Display the specified resource.

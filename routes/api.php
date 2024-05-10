@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Car Api's
     Route::get('/getCars', [CarController::class, 'getCars']);
+    Route::post('/storeCar', [CarController::class, 'storeCar']);
     Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchByName']);
@@ -47,7 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // SparePart Api's
     Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
-    Route::post('searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
+    Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+    Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
     // Order Api's
     Route::post('addOrder', [OrderController::class, 'addOrder']);

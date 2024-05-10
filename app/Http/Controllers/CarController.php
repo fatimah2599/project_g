@@ -27,42 +27,78 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeCar(Request $request)
     {
         $request->validate([
-            'name',
-            'brand',
-            'color',
-            'engine_type',
-            'price',
-            'engine_size',
-            'car_transmission',
-            'model',
-            'propulsion_type',
-            'production_year',
-            'amount',
-            'status',
-            'number_of_rented',
-            'company_id',
-            'fuel_tank_capacity',
-            'millage',
-            'date',
-            // 'image' => $image,
+            'name' => 'required',
+            'brand' => 'required',
+            'color' => 'required',
+            'engine_type' => 'required',
+            'price' => 'required',
+            'engine_size' => 'required',
+            'car_transmission' => 'required',
+            'model' => 'required',
+            'propulsion_type' => 'required',
+            'production_year' => 'required',
+            'amount' => 'required',
+            'status' => 'required',
+            'number_of_rented' => 'required',
+            'company_id' => 'required',
+            'fuel_tank_capacity' => 'required',
+            'millage' => 'required',
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        $inputCar = $request->all();
-        if ($image = $request->file('image')) {
-            // $destinationPath = '/images/';
-            // $CarImage = date('YmdHis') . "." . $image->getClientOrginalExtension();
-            // $image = move($destinationPath, $CarImage);
-            // $inputCar['image'] = "$CarImage";
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
         }
 
-        Car::create($inputCar);
+        $accessoryPart = new AccessoryPart;
+        $car->name = $request->name;
+        $car->brand = $request->brand;
+        $car->color = implode(',', $request->color);
+        $car->engine_type = $request->engine_type;
+        $car->price = $request->price;
+        $car->engine_size = $request->engine_size;
+        $car->car_transmission = $request->car_transmission;
+        $car->model = $request->model;
+        $car->propulsion_type = $request->propulsion_type;
+        $car->production_year = $request->production_year;
+        $car->amount = $request->amount;
+        $car->status = $request->status;
+        $car->number_of_rented = $request->number_of_rented ;
+        $car->company_id = $request->company_id;
+        $car->fuel_tank_capacity = $request->fuel_tank_capacity;
+        $car->millage = $request->millage;
+        $car->date = $request->date;
+        
+        // process image
+        if ($request->file('image')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->image->getClientOriginalExtension();
+            // path
+            $path = "/cars";
+            // store in public storage
+            $request->image->move(public_path($path), $imageName);
+            // store in database
+            $car->image = $imageName;
+        }
 
-        return response()->json($inputCar, Response::HTTP_ADDED);
+        $car->save();
+
+        // return response
+        return $this->sendResponse([
+            'code' => "SUCCESS",
+            'data' => $car,
+            'message' => 'Adding car done succefully'
+        ]);
     }
-
     /**
      * Display the specified resource.
      */
