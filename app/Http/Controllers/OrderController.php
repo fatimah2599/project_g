@@ -13,11 +13,17 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getOrders()
     {
         $Orders = Order::all();
-        return response()->json ( $Orders, Response::HTTP_SHOWED);
+        return $this->sendResponse([
+            'data' =>$Orders ,
+            'message' => 'get orders Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +40,12 @@ class OrderController extends Controller
 
     $order->sales()->createMany($salesData);
 
-    return response()->json(['message' => 'Order and sales created successfully'], 201);
+    return $this->sendResponse([
+        'data' => $salesData,
+        'message' => 'order for car Successful',
+        'code' => 'SUCCESS',
+        'isSuccess' => true,
+    ]);
 }
     /**
      * Display the specified resource.

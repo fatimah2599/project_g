@@ -21,6 +21,7 @@ class CarController extends Controller
             'message' => "Action Successful",
             'data' => $cars,
             'code' => "SUCCESS",
+            'isSuccess' => true,
         ]);
     }
 
@@ -60,7 +61,12 @@ class CarController extends Controller
 
         Car::create($inputCar);
 
-        return response()->json($inputCar, Response::HTTP_ADDED);
+        return $this->sendResponse([
+            'data' => $inputCar,
+            'message' => 'searchByName Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
     }
 
     /**
@@ -208,9 +214,6 @@ class CarController extends Controller
         ]);
 
     }
-
-
-
 
 
     public function sortByYear(Request $request)

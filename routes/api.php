@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Car Api's
     Route::get('/getCars', [CarController::class, 'getCars']);
+    Route::post('/storeCar', [CarController::class, 'store']);
     Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchByName']);
@@ -47,10 +48,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // SparePart Api's
     Route::get('/indexSpareparts', [SparePartController::class, 'index']);
-    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchBYName']);
+    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchByName']);
 
     // Order Api's
-    Route::post('/order/store', [OrderController::class, 'store']);
+    Route::get('/getOrders', [OrderController::class, 'getOrders']);
+    Route::post('/store', [OrderController::class, 'store']);
+
 });
 #end region user
 
