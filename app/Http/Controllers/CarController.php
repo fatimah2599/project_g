@@ -63,7 +63,7 @@ class CarController extends Controller
 
         return $this->sendResponse([
             'data' => $inputCar,
-            'message' => 'searchByName Successful',
+            'message' => 'store Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
