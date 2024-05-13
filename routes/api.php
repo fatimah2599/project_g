@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Car Api's
     Route::get('/getCars', [CarController::class, 'getCars']);
-    Route::post('/storeCar', [CarController::class, 'store']);
+    Route::post('/storeCar', [CarController::class, 'storeCar']);
     Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchByName']);
@@ -47,12 +47,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
 
     // SparePart Api's
-    Route::get('/indexSpareparts', [SparePartController::class, 'index']);
-    Route::post('/sparePart/searchByName', [SparePartController::class, 'searchByName']);
+    Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
+    Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+    Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
     // Order Api's
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
-    Route::post('/store', [OrderController::class, 'store']);
+    Route::post('addOrder', [OrderController::class, 'addOrder']);
 
 });
 #end region user

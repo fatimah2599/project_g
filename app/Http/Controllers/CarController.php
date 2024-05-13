@@ -28,47 +28,78 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeCar(Request $request)
     {
         $request->validate([
-            'name',
-            'brand',
-            'color',
-            'engine_type',
-            'price',
-            'engine_size',
-            'car_transmission',
-            'model',
-            'propulsion_type',
-            'production_year',
-            'amount',
-            'status',
-            'number_of_rented',
-            'company_id',
-            'fuel_tank_capacity',
-            'millage',
-            'date',
-            // 'image' => $image,
+            'name' => 'required',
+            'brand' => 'required',
+            'color' => 'required',
+            'engine_type' => 'required',
+            'price' => 'required',
+            'engine_size' => 'required',
+            'car_transmission' => 'required',
+            'model' => 'required',
+            'propulsion_type' => 'required',
+            'production_year' => 'required',
+            'amount' => 'required',
+            'status' => 'required',
+            'number_of_rented' => 'required',
+            'company_id' => 'required',
+            'fuel_tank_capacity' => 'required',
+            'millage' => 'required',
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        $inputCar = $request->all();
-        if ($image = $request->file('image')) {
-            // $destinationPath = '/images/';
-            // $CarImage = date('YmdHis') . "." . $image->getClientOrginalExtension();
-            // $image = move($destinationPath, $CarImage);
-            // $inputCar['image'] = "$CarImage";
+        if ($request->fails()) {
+            return $this->sendResponse([
+                'data' => $request->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
         }
 
-        Car::create($inputCar);
+        $car = new Car;
+        $car->name = $request->name;
+        $car->brand = $request->brand;
+        $car->color = implode(',', $request->color);
+        $car->engine_type = $request->engine_type;
+        $car->price = $request->price;
+        $car->engine_size = $request->engine_size;
+        $car->car_transmission = $request->car_transmission;
+        $car->model = $request->model;
+        $car->propulsion_type = $request->propulsion_type;
+        $car->production_year = $request->production_year;
+        $car->amount = $request->amount;
+        $car->status = $request->status;
+        $car->number_of_rented = $request->number_of_rented ;
+        $car->company_id = $request->company_id;
+        $car->fuel_tank_capacity = $request->fuel_tank_capacity;
+        $car->millage = $request->millage;
+        $car->date = $request->date;
 
+        // process image
+        if ($request->file('image')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->image->getClientOriginalExtension();
+            // path
+            $path = "/cars";
+            // store in public storage
+            $request->image->move(public_path($path), $imageName);
+            // store in database
+            $car->image = $imageName;
+        }
+
+        $car->save();
+
+        // return response
         return $this->sendResponse([
-            'data' => $inputCar,
-            'message' => 'store Successful',
-            'code' => 'SUCCESS',
-            'isSuccess' => true,
+            'code' => "SUCCESS",
+            'data' => $car,
+            'message' => 'Adding car done succefully'
         ]);
     }
-
     /**
      * Display the specified resource.
      */
@@ -106,24 +137,24 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('name', $request->input('name'))->first();
+        $car = Car::where('name', $request->input('name'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
-
-            return $this->sendResponse([
-                'data' => $car,
-                'message' => 'searchByName Successful',
-                'code' => 'SUCCESS',
-                'isSuccess' => true,
-            ]);
         }
+
+        return $this->sendResponse([
+            'data' => $car,
+            'message' => 'Search By Name Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
+    }
 
 
 
@@ -140,27 +171,25 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('color', $request->input('color'))->first();
+        $car = Car::where('color', $request->input('color'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
 
         return $this->sendResponse([
             'data' => $car,
-            'message' => 'searchByColor Successful',
+            'message' => 'Search By Color Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
-
-
     }
-/////
+
 
     public function searchByBrand(Request $request, Car $color)
     {
@@ -175,20 +204,20 @@ class CarController extends Controller
                 'isSuccess' => false,
             ]);
         }
-        $car = Car::where('brand', $request->input('brand'))->first();
+        $car = Car::where('brand', $request->input('brand'))->get();
 
-        if (!$car) {
+        if ($car->isEmpty()) {
             return $this->sendResponse([
-                'data' => $car->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
 
-          return $this->sendResponse([
+        return $this->sendResponse([
             'data' => $car,
-            'message' => 'searchByBrand Successful',
+            'message' => 'Search By Brand Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
@@ -198,35 +227,33 @@ class CarController extends Controller
     public function sortByPrice(Request $request)
     {
         $cars = Car::orderBy('price')->get();
-        if (!$cars) {
+        if ($cars->isEmpty()) {
             return $this->sendResponse([
                 'data' => $cars->errors(),
                 'message' => 'Car is not found',
                 'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
         return $this->sendResponse([
             'data' => $cars,
-            'message' => 'sortByPrice Successful',
+            'message' => 'Sort By Price Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
-
     }
-
 
     public function sortByYear(Request $request)
     {
         $cars = Car::orderBy('production_year')->get();
-     if (!$cars) {
+        if (!$cars) {
             return $this->sendResponse([
-                'data' => $cars->errors(),
+                'data' => [],
                 'message' => 'Car is not found',
-                'code' => 'CAR_NOT_FOUND',
+                'code' => 'NOT_FOUND',
                 'isSuccess' => false,
             ]);
-          }
+        }
         return $this->sendResponse([
             'data' => $cars,
             'message' => 'sortByYear Successful',

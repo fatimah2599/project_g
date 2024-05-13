@@ -24,11 +24,10 @@ class OrderController extends Controller
         ]);
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function addOrder(Request $request)
 {
     $order = new Order;
     $order->user_id = Auth::id(); // assuming the user is authenticated
@@ -47,6 +46,9 @@ class OrderController extends Controller
         'isSuccess' => true,
     ]);
 }
+
+
+
     /**
      * Display the specified resource.
      */
