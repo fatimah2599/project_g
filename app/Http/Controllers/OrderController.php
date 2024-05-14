@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,25 +27,33 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function addOrder(Request $request)
-{
-    $order = new Order;
-    $order->user_id = Auth::id(); // assuming the user is authenticated
-    $order->save();
+    public function addOrderForBuyCar(Request $request)
+    {
+        $order = new Order;
+        $order->user_id = Auth::id();
+        $order->total_price = 0.00;
+        $order->date = now();
+        $order->save();
 
-    $salesData = array_map(function($sale) {
-        return ['car_id' => $sale['car_id']];
-    }, $request->sales);
+        $salesData = array_map(function($sale) {
+            return [
+                'car_id' => $sale['car_id'],
+                'count' => $sale['count'],
+                'type' => $sale['type'],
+                'price' => $sale['price'],
+            ];
+        }, $request->sales);
 
-    $order->sales()->createMany($salesData);
+        $order->sales()->createMany($salesData);
 
-    return $this->sendResponse([
-        'data' => $salesData,
-        'message' => 'order for car Successful',
-        'code' => 'SUCCESS',
-        'isSuccess' => true,
-    ]);
-}
+        return $this->sendResponse([
+            'data' => $salesData,
+            'message' => 'order for car Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
+    }
+
 
 
 
@@ -73,5 +81,10 @@ class OrderController extends Controller
         //
     }
 
+
+    public function sendResponse($response)
+    {
+        return response()->json($response);
+    }
 
 }
