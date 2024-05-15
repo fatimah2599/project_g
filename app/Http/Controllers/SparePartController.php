@@ -15,17 +15,17 @@ class SparePartController extends Controller
      */
     public function getSpareParts()
     {
-        $cars = Car::all();
+        $spare_part  = SparePart::all();
         return $this->sendResponse([
             'message' => "Action Successful",
-            'data' => $spare_parts,
+            'data' => $spare_part,
             'code' => "SUCCESS",
         ]);
     }
     /**
      * Store a newly created resource in storage.
      */
-    
+
     public function storeSparePart(Request $request)
     {
         $validator = Validator::make(
@@ -104,7 +104,7 @@ class SparePartController extends Controller
         //
     }
 
-    
+
     public function searchByNameSparePart(Request $request, SparePart $name)
     {
         $validator = Validator::make($request->all(), [
@@ -121,7 +121,7 @@ class SparePartController extends Controller
         }
         $spare_part = SparePart::where('name', $request->input('name'))->get();
 
-        if ($car->isEmpty()) {
+        if ($spare_part ->isEmpty()) {
             return $this->sendResponse([
                 'data' => [],
                 'message' => 'Spare Part is not found',
@@ -131,7 +131,7 @@ class SparePartController extends Controller
         }
 
         return $this->sendResponse([
-            'data' => $car,
+            'data' => $spare_part ,
             'message' => 'Search By Name Successful',
             'code' => 'SUCCESS',
             'isSuccess' => true,

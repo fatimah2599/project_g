@@ -21,6 +21,7 @@ class CarController extends Controller
             'message' => "Action Successful",
             'data' => $cars,
             'code' => "SUCCESS",
+            'isSuccess' => true,
         ]);
     }
 
@@ -50,16 +51,16 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        if ($validator->fails()) {
+        if ($request->fails()) {
             return $this->sendResponse([
-                'data' =>  $validator->errors()->all(),
+                'data' => $request->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,
             ]);
         }
 
-        $accessoryPart = new AccessoryPart;
+        $car = new Car;
         $car->name = $request->name;
         $car->brand = $request->brand;
         $car->color = implode(',', $request->color);
@@ -77,7 +78,7 @@ class CarController extends Controller
         $car->fuel_tank_capacity = $request->fuel_tank_capacity;
         $car->millage = $request->millage;
         $car->date = $request->date;
-        
+
         // process image
         if ($request->file('image')) {
             // generate new image name

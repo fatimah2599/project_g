@@ -49,7 +49,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
     // Order Api's
-    Route::post('addOrder', [OrderController::class, 'addOrder']);
+    Route::get('/getOrders', [OrderController::class, 'getOrders']);
+    Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
+
 });
 #end region user
 
