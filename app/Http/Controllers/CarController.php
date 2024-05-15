@@ -21,14 +21,13 @@ class CarController extends Controller
             'message' => "Action Successful",
             'data' => $cars,
             'code' => "SUCCESS",
-            'isSuccess' => true,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function storeCar(Request $request)
+    public function storeCarForReservation(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -51,9 +50,9 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        if ($request->fails()) {
+        if ($validator->fails()) {
             return $this->sendResponse([
-                'data' => $request->errors()->all(),
+                'data' =>  $validator->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,
@@ -72,13 +71,86 @@ class CarController extends Controller
         $car->propulsion_type = $request->propulsion_type;
         $car->production_year = $request->production_year;
         $car->amount = $request->amount;
-        $car->status = $request->status;
+        $car->status = 0;
         $car->number_of_rented = $request->number_of_rented ;
         $car->company_id = $request->company_id;
         $car->fuel_tank_capacity = $request->fuel_tank_capacity;
         $car->millage = $request->millage;
         $car->date = $request->date;
+        
+        // process image
+        if ($request->file('image')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->image->getClientOriginalExtension();
+            // path
+            $path = "/cars";
+            // store in public storage
+            $request->image->move(public_path($path), $imageName);
+            // store in database
+            $car->image = $imageName;
+        }
 
+        $car->save();
+
+        // return response
+        return $this->sendResponse([
+            'code' => "SUCCESS",
+            'data' => $car,
+            'message' => 'Adding car done succefully'
+        ]);
+    }
+
+    public function storeCarForBuying(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'brand' => 'required',
+            'color' => 'required',
+            'engine_type' => 'required',
+            'price' => 'required',
+            'engine_size' => 'required',
+            'car_transmission' => 'required',
+            'model' => 'required',
+            'propulsion_type' => 'required',
+            'production_year' => 'required',
+            'amount' => 'required',
+            'status' => 'required',
+           // 'number_of_rented' => 'required',
+            'company_id' => 'required',
+            'fuel_tank_capacity' => 'required',
+           // 'millage' => 'required',
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $car = new Car;
+        $car->name = $request->name;
+        $car->brand = $request->brand;
+        $car->color = implode(',', $request->color);
+        $car->engine_type = $request->engine_type;
+        $car->price = $request->price;
+        $car->engine_size = $request->engine_size;
+        $car->car_transmission = $request->car_transmission;
+        $car->model = $request->model;
+        $car->propulsion_type = $request->propulsion_type;
+        $car->production_year = $request->production_year;
+        $car->amount = $request->amount;
+        $car->status = 1;
+        //$car->number_of_rented = $request->number_of_rented ;
+        $car->company_id = $request->company_id;
+        $car->fuel_tank_capacity = $request->fuel_tank_capacity;
+        //$car->millage = $request->millage;
+        $car->date = $request->date;
+        
         // process image
         if ($request->file('image')) {
             // generate new image name
