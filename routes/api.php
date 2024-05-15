@@ -53,8 +53,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
     Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
 // Reservation Api's
-Route::post('getReservations', [ReservationController::class, 'getReservations']);
-Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+
+Route::get('getReservations', [ReservationController::class, 'getReservations']);
+Route::post('addReservationForCar/{car}', [ReservationController::class, 'addReservationForCar']);
 
 
 });
