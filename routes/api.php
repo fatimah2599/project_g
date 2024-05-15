@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController;
+use App\Http\Controllers\ReservationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,6 +55,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Order Api's
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
     Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
+// Reservation Api's
+Route::post('getReservations', [ReservationController::class, 'getReservations']);
+Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+
 
 });
 #end region user
