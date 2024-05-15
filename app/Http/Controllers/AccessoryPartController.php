@@ -26,6 +26,9 @@ class AccessoryPartController extends Controller
         ]);
     }
 
+    //this->authorize('admin');
+    //return $user->role === 1;
+
     /**
      * Store a newly created resource in storage.
      */
