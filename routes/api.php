@@ -57,10 +57,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 #region admin
-Route::prefix('admin')->group(function () {
-    Route::post('/login', [AuthController::class, 'loginAdmin']);
-    Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-    Route::post('/storeCar', [CarController::class, 'storeCar']);
-    Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+Route::middleware(['auth:api', 'admin:1'])->group(function(){
+        Route::prefix('admin')->group(function () {
+        Route::post('/login', [AuthController::class, 'loginAdmin']);
+        Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
+        Route::post('/storeCar', [CarController::class, 'storeCar']);
+        Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+    });
 });
+
 #end region admin
