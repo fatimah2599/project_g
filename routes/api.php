@@ -61,7 +61,8 @@ Route::middleware(['auth:api', 'admin:1'])->group(function(){
         Route::prefix('admin')->group(function () {
         Route::post('/login', [AuthController::class, 'loginAdmin']);
         Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-        Route::post('/storeCar', [CarController::class, 'storeCar']);
+        Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
+        Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
         Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
     });
 });
