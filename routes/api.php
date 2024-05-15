@@ -31,7 +31,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     // Accessory Part Api's
     Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
-    Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
     Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
 
     // User Api's
@@ -39,7 +38,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Car Api's
     Route::get('/getCars', [CarController::class, 'getCars']);
-    Route::post('/storeCar', [CarController::class, 'storeCar']);
     Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchByName']);
@@ -48,7 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // SparePart Api's
     Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
-    Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
     Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
     // Order Api's
@@ -60,5 +57,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 #region admin
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'loginAdmin']);
+    Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
+    Route::post('/storeCar', [CarController::class, 'storeCar']);
+    Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
 });
 #end region admin
