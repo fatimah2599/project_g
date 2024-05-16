@@ -64,6 +64,12 @@ Route::middleware(['auth:api', 'admin:1'])->group(function(){
         Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
         Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
         Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+        Route::post('/updateCarInfoForBuying', [CarController::class, 'updateCarInfoForBuying']);
+        Route::post('/updateCarInfoForReservation', [CarController::class, 'updateCarInfoForReservation']);
+        Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
+        Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
+        Route::delete('/getUsers', [UserController::class, 'getUsers']);
+        Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
     });
 });
 

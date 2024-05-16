@@ -16,8 +16,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getUsers()
     {
+        $users = User::all();
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $users,
+            'code' => "SUCCESS",
+        ]);
     }
 
     /**
@@ -103,8 +109,28 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function deleteUser($userId)
+{
+    if (!auth()->user()->is_admin) {
+        return $this->sendResponse([
+            'data' => [],
+            'message' => 'Unauthorized access',
+            'code' => 'UNAUTHORIZED',
+            'isSuccess' => false,
+        ]);
     }
+
+    $user = User::findOrFail($userId);
+
+    if ($user->profile_photo_path) {
+        Storage::delete($user->profile_photo_path);
+    }
+
+    $user->delete();
+
+    return $this->sendResponse([
+        'data' => [],
+        'message' => 'User deleted successfully',
+    ]);
+}
 }

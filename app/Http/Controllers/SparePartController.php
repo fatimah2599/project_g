@@ -91,10 +91,66 @@ class SparePartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SparePart $sparePart)
+    public function updateSparePartInfo(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'company_id' => 'required',
+            'made' => 'required',
+            'model' => 'required',
+            'piece_number' => 'required|numeric',
+            'price' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $sparePart = SparePart::find($request->id);
+
+        if (!$sparePart) {
+            return $this->sendResponse([
+                'data' =>  [],
+                'message' => 'Accessory Part Not Found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+        }
+        $imageName = "";
+        // process photo
+        if ($request->file('photo')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->photo->getClientOriginalExtension();
+            // path
+            $path = "/accessoryparts";
+            // store in storage storage
+            $request->photo->move(storage_path($path), $imageName);
+        }
+        $sparePart->update([
+        'id' => $request->id,
+        'name' => $request->name,
+        'company_id' => $request->company_id,
+        'model' => $request->model,
+        'piece_number' => $request->piece_number,
+        'price' => $request->price,
+        'image' => $request->image
+        ]);
+
+        
+       // unset($user->confirm_password);
+        return $this->sendResponse([
+            'data' =>  $sparePart,
+            'message' => 'Update Spare Part success',
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
