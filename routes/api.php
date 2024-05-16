@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\OrdersSparePartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,7 +39,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateProfile', [UserController::class, 'updateProfile']);
 
     // Car Api's
-    Route::get('/getCars', [CarController::class, 'getCars']);
+    Route::get('/getCarsForBuy', [CarController::class, 'getCarsForBuy']);
+    Route::get('/getCarsForRent', [CarController::class, 'getCarsForRent']);
     Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
     Route::post('/sortByYear', [CarController::class, 'sortByYear']);
     Route::post('/searchByName', [CarController::class, 'searchByName']);
@@ -55,6 +57,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Reservation Api's
 Route::post('getReservations', [ReservationController::class, 'getReservations']);
 Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+//ordersSpareParts
+Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
+Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
 
 
 });
