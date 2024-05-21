@@ -14,6 +14,54 @@ class AuthController extends Controller
 {
     use ApiResponses;
 
+    public function loginAdmin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'login failed',
+                'code' => 'VALIDATION_ERROR',
+                'isSuccess' => false,
+            ]);
+        }
+        if (!Auth::attempt(request(['email', 'password']))) {
+            return $this->sendResponse([
+                'data' => [],
+                'message' => 'The loginadmin is incorrect.',
+                'code' => 'UNAUTHORIZED',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user->role != 1) {
+            return $this->sendResponse([
+                'data' => [],
+                'message' => 'User is not an admin.',
+                'code' => 'UNAUTHORIZED',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $token = $user->createToken('car 4 u')->plainTextToken;
+
+        unset($user->password);
+        unset($user->confirm_password);
+
+        return $this->sendResponse([
+            'data' => ['user' => $user, 'token' => $token],
+            'message' => 'loginAdmin Successful',
+            'code' => 'SUCCESS',
+            'isSuccess' => true,
+        ]);
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -61,9 +61,10 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
+
         if ($request->fails()) {
             return $this->sendResponse([
-                'data' =>  $request->errors()->all(),
+                'data' => $request->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,

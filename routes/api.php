@@ -11,6 +11,8 @@ use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrdersSparePartController;
+use GuzzleHttp\Middleware;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,26 +57,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
     Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
 // Reservation Api's
+
 Route::post('getReservations', [ReservationController::class, 'getReservations']);
 Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
 //ordersSpareParts
 Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
 Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
-
-
 });
 #end region user
 
 
 #region admin
-Route::middleware(['auth:api', 'admin:1'])->group(function(){
+
+     Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
         Route::prefix('admin')->group(function () {
-        Route::post('/login', [AuthController::class, 'loginAdmin']);
-        Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-        Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
-        Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
-        Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
-    });
-});
+            Route::group(['middleware'=>['admin']],function(){
+                Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
+                Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
+                Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
+                Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+            });
+            });
+
 
 #end region admin
