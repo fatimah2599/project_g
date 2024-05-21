@@ -14,9 +14,20 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getCars()
+
+    public function getCarsForBuy()
     {
-        $cars = Car::all();
+        $cars = Car::where('status', 1)->get();
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $cars,
+            'code' => "SUCCESS",
+        ]);
+    }
+
+    public function getCarsForRent()
+    {
+        $cars = Car::where('status', 0)->get();
         return $this->sendResponse([
             'message' => "Action Successful",
             'data' => $cars,
@@ -50,9 +61,10 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        if ( $request->fails()) {
+
+        if ($request->fails()) {
             return $this->sendResponse([
-                'data' =>   $request->errors()->all(),
+                'data' => $request->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,
@@ -123,7 +135,8 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        if ( $request->fails()) {
+
+        if ($request->fails()) {
             return $this->sendResponse([
                 'data' =>  $request->errors()->all(),
                 'message' => 'Validation failed',
