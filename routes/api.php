@@ -57,13 +57,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
     Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
 // Reservation Api's
+
 Route::post('getReservations', [ReservationController::class, 'getReservations']);
 Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
 //ordersSpareParts
 Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
 Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
-
-
 });
 #end region user
 
