@@ -37,6 +37,7 @@ class SparePartController extends Controller
                 'model' => 'required',
                 'piece_number' => 'required|numeric',
                 'price' => 'required|numeric',
+                'amount' => 'required|numeric',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
             ]
         );
@@ -50,6 +51,20 @@ class SparePartController extends Controller
             ]);
         }
 
+        // Check if the spare part already exists
+    $existingSparePart = SparePart::where('piece_number', $request->piece_number)->first();
+
+    if ($existingSparePart) {
+        // Update the existing spare part
+        $existingSparePart->amount += $request->amount;
+        $existingSparePart->save();
+
+        return $this->sendResponse([
+            'code' => "SUCCESS",
+            'data' => $existingSparePart,
+            'message' => 'Spare part quantity updated successfully'
+        ]);
+    }
         $sparePart = new SparePart;
         $sparePart->name = $request->name;
         $sparePart->company_id = $request->company_id;
@@ -78,7 +93,7 @@ class SparePartController extends Controller
             'message' => 'Adding spare part done succefully'
         ]);
     }
-
+    
 
     /**
      * Display the specified resource.

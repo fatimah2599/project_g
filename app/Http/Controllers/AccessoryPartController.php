@@ -44,6 +44,7 @@ class AccessoryPartController extends Controller
                 'price' => 'required|numeric',
                 'feature' => 'required',
                 'availability_colors' => 'required|array',
+                'amount' =>'required|numeric',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
             ]
         );
@@ -57,6 +58,26 @@ class AccessoryPartController extends Controller
             ]);
         }
 
+         // Check if the accessory part already exists
+        $existingPart = AccessoryPart::where('name', $request->name)
+                                       ->where('brand', $request->brand)
+                                       ->where('material', $request->material)
+                                       ->first();
+
+        if ($existingPart) {
+        // Increment the quantity
+        $existingPart->amount += $request->amount;
+        $existingPart->availability_colors = implode(',', $request->availability_colors);
+        $existingPart->price = $request->price;
+        $existingPart->description = $request->description;
+        $existingPart->save();
+
+        return $this->sendResponse([
+        'code' => "SUCCESS",
+        'data' => $existingPart,
+        'message' => 'Accessory part quantity updated successfully'
+        ]);
+        }
         $accessoryPart = new AccessoryPart;
         $accessoryPart->name = $request->name;
         $accessoryPart->brand = $request->brand;

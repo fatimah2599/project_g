@@ -40,7 +40,7 @@ class CarController extends Controller
             'model' => 'required',
             'propulsion_type' => 'required',
             'production_year' => 'required',
-            'amount' => 'required',
+            'amount' =>'required|numeric',
             'status' => 'required',
             'number_of_rented' => 'required',
             'company_id' => 'required',
@@ -113,7 +113,7 @@ class CarController extends Controller
             'model' => 'required',
             'propulsion_type' => 'required',
             'production_year' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'status' => 'required',
            // 'number_of_rented' => 'required',
             'company_id' => 'required',
@@ -132,6 +132,34 @@ class CarController extends Controller
             ]);
         }
 
+            // Check if the car already exists
+        $existingCar = Car::where('name', $request->name)
+        ->where('brand', $request->brand)
+        ->where('model', $request->model)
+        ->where('production_year', $request->production_year)
+        ->first();
+
+        if ($existingCar) {
+        // Increment the amount
+        $existingCar->amount += $request->amount; // Increment the amount
+        $existingCar->color = implode(',', $request->color);
+        $existingCar->engine_type = $request->engine_type;
+        $existingCar->price = $request->price;
+        $existingCar->engine_size = $request->engine_size;
+        $existingCar->car_transmission = $request->car_transmission;
+        $existingCar->propulsion_type = $request->propulsion_type;
+        $existingCar->status = $request->status;
+        $existingCar->company_id = $request->company_id;
+        $existingCar->fuel_tank_capacity = $request->fuel_tank_capacity;
+        $existingCar->date = $request->date;
+        $existingCar->save();
+
+        return $this->sendResponse([
+        'code' => "SUCCESS",
+        'data' => $existingCar,
+        'message' => 'Car amount updated successfully'
+        ]);
+        }
         $car = new Car;
         $car->name = $request->name;
         $car->brand = $request->brand;
@@ -456,7 +484,15 @@ class CarController extends Controller
 
     public function sortByPrice(Request $request)
     {
-        $cars = Car::orderBy('price')->get();
+        $order1 = isset($request->order) ? $request->order : 'asc';
+        $order2 = isset($request->order) ? $request->order : 'desc';
+        if($order1){
+            $cars = Car::orderBy('price',$order1)->get();
+        }
+        if($order2){
+            $cars = Car::orderBy('price',$order2)->get();
+        }
+        
         if ($cars->isEmpty()) {
             return $this->sendResponse([
                 'data' => $cars->errors(),
@@ -471,6 +507,7 @@ class CarController extends Controller
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
+        
     }
 
     public function sortByYear(Request $request)
