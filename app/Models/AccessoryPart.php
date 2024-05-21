@@ -20,6 +20,7 @@ class AccessoryPart extends Model
         'price',
         'feature',
         'availability_colors',
+        'amount',
         'image'
     ];
 

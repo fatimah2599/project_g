@@ -69,15 +69,24 @@ Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSpa
 
 #region admin
 
-     Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
-        Route::prefix('admin')->group(function () {
-            Route::group(['middleware'=>['admin']],function(){
-                Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-                Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
-                Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
-                Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
-            });
-            });
 
+  Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
+        Route::prefix('admin')->group(function () {
+       
+            Route::group(['middleware'=>['admin']],function(){
+        Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
+        Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
+        Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
+        Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+        Route::post('/updateCarInfoForBuying', [CarController::class, 'updateCarInfoForBuying']);
+        Route::post('/updateCarInfoForReservation', [CarController::class, 'updateCarInfoForReservation']);
+        Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
+        Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
+        Route::delete('/getUsers', [UserController::class, 'getUsers']);
+        Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
+              
+       
+            });
+            });
 
 #end region admin

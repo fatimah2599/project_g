@@ -51,7 +51,7 @@ class CarController extends Controller
             'model' => 'required',
             'propulsion_type' => 'required',
             'production_year' => 'required',
-            'amount' => 'required',
+            'amount' =>'required|numeric',
             'status' => 'required',
             'number_of_rented' => 'required',
             'company_id' => 'required',
@@ -125,7 +125,7 @@ class CarController extends Controller
             'model' => 'required',
             'propulsion_type' => 'required',
             'production_year' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'status' => 'required',
            // 'number_of_rented' => 'required',
             'company_id' => 'required',
@@ -144,6 +144,34 @@ class CarController extends Controller
             ]);
         }
 
+            // Check if the car already exists
+        $existingCar = Car::where('name', $request->name)
+        ->where('brand', $request->brand)
+        ->where('model', $request->model)
+        ->where('production_year', $request->production_year)
+        ->first();
+
+        if ($existingCar) {
+        // Increment the amount
+        $existingCar->amount += $request->amount; // Increment the amount
+        $existingCar->color = implode(',', $request->color);
+        $existingCar->engine_type = $request->engine_type;
+        $existingCar->price = $request->price;
+        $existingCar->engine_size = $request->engine_size;
+        $existingCar->car_transmission = $request->car_transmission;
+        $existingCar->propulsion_type = $request->propulsion_type;
+        $existingCar->status = $request->status;
+        $existingCar->company_id = $request->company_id;
+        $existingCar->fuel_tank_capacity = $request->fuel_tank_capacity;
+        $existingCar->date = $request->date;
+        $existingCar->save();
+
+        return $this->sendResponse([
+        'code' => "SUCCESS",
+        'data' => $existingCar,
+        'message' => 'Car amount updated successfully'
+        ]);
+        }
         $car = new Car;
         $car->name = $request->name;
         $car->brand = $request->brand;
@@ -194,9 +222,167 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Car $car)
+    public function updateCarInfoForReservation(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'brand' => 'required',
+            'color' => 'required',
+            'engine_type' => 'required',
+            'price' => 'required',
+            'engine_size' => 'required',
+            'car_transmission' => 'required',
+            'model' => 'required',
+            'propulsion_type' => 'required',
+            'production_year' => 'required',
+            'amount' => 'required',
+            'status' => 'required',
+            'number_of_rented' => 'required',
+            'company_id' => 'required',
+            'fuel_tank_capacity' => 'required',
+            'millage' => 'required',
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $car = Car::find($request->id);
+
+        if (!$car) {
+            return $this->sendResponse([
+                'data' =>  [],
+                'message' => 'Car Not Found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+        }
+        $imageName = "";
+        // process photo
+        if ($request->file('photo')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->photo->getClientOriginalExtension();
+            // path
+            $path = "/cars";
+            // store in storage storage
+            $request->photo->move(storage_path($path), $imageName);
+        }
+        $car->update([
+        'name' => $request->name,
+        'brand' => $request->brand,
+        'color' => implode(',', $request->color),
+        'engine_type' => $request->engine_type,
+        'price' => $request->price,
+        'engine_size' => $request->engine_size,
+        'car_transmission' => $request->car_transmission,
+        'model' => $request->model,
+        'propulsion_type' => $request->propulsion_type,
+        'production_year' => $request->production_year,
+        'amount' => $request->amount,
+        'status' => 1,
+        'number_of_rented' => $request->number_of_rented,
+        'company_id' => $request->company_id,
+        'fuel_tank_capacity' => $request->fuel_tank_capacity,
+        'millage' => $request->millage,
+        'date' => $request->date
+        ]);
+
+        
+       // unset($user->confirm_password);
+        return $this->sendResponse([
+            'data' =>  $car,
+            'message' => 'Update Car success',
+        ]);
+    }
+
+    public function updateCarInfoForBuying(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'brand' => 'required',
+            'color' => 'required',
+            'engine_type' => 'required',
+            'price' => 'required',
+            'engine_size' => 'required',
+            'car_transmission' => 'required',
+            'model' => 'required',
+            'propulsion_type' => 'required',
+            'production_year' => 'required',
+            'amount' => 'required',
+            'status' => 'required',
+        // 'number_of_rented' => 'required',
+            'company_id' => 'required',
+            'fuel_tank_capacity' => 'required',
+         //   'millage' => 'required',
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([
+                'data' =>  $validator->errors()->all(),
+                'message' => 'Validation failed',
+                'code' => 'VALIDATION_ERROE',
+                'isSuccess' => false,
+            ]);
+        }
+
+        $car = Car::find($request->id);
+
+        if (!$car) {
+            return $this->sendResponse([
+                'data' =>  [],
+                'message' => 'Car Not Found',
+                'code' => 'NOT_FOUND',
+                'isSuccess' => false,
+            ]);
+        }
+        $imageName = "";
+        // process photo
+        if ($request->file('photo')) {
+            // generate new image name
+            $imageName = date('Y_m_d_H_s_i') . "." . $request->photo->getClientOriginalExtension();
+            // path
+            $path = "/cars";
+            // store in storage storage
+            $request->photo->move(storage_path($path), $imageName);
+        }
+        $car->update([
+        'name' => $request->name,
+        'brand' => $request->brand,
+        'color' => implode(',', $request->color),
+        'engine_type' => $request->engine_type,
+        'price' => $request->price,
+        'engine_size' => $request->engine_size,
+        'car_transmission' => $request->car_transmission,
+        'model' => $request->model,
+        'propulsion_type' => $request->propulsion_type,
+        'production_year' => $request->production_year,
+        'amount' => $request->amount,
+        'status' => 0,
+       // 'number_of_rented' => $request->number_of_rented,
+        'company_id' => $request->company_id,
+        'fuel_tank_capacity' => $request->fuel_tank_capacity,
+        //'millage' => $request->millage,
+        'date' => $request->date,
+        'image' => $request->image
+        ]);
+
+        
+       // unset($user->confirm_password);
+        return $this->sendResponse([
+            'data' =>  $car,
+            'message' => 'Update Car success',
+        ]);
     }
 
     /**
@@ -310,7 +496,15 @@ class CarController extends Controller
 
     public function sortByPrice(Request $request)
     {
-        $cars = Car::orderBy('price')->get();
+        $order1 = isset($request->order) ? $request->order : 'asc';
+        $order2 = isset($request->order) ? $request->order : 'desc';
+        if($order1){
+            $cars = Car::orderBy('price',$order1)->get();
+        }
+        if($order2){
+            $cars = Car::orderBy('price',$order2)->get();
+        }
+        
         if ($cars->isEmpty()) {
             return $this->sendResponse([
                 'data' => $cars->errors(),
@@ -325,6 +519,7 @@ class CarController extends Controller
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
+        
     }
 
     public function sortByYear(Request $request)

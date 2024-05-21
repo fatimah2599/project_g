@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('piece_number');
             $table->double('price');
             $table->string('image');
+            $table->integer('amount');
             $table->timestamps();
         });
     }
