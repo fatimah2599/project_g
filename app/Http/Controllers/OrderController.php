@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Car;
 use Illuminate\Http\Request;
- use Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,9 +30,18 @@ class OrderController extends Controller
      */
     public function addOrderForBuyCar(Request $request)
     {
+        $car = Car::find($request->car_id);
+        if ($car->status != 1) {
+            return $this->sendResponse([
+                'message' => 'هذه السيارة غير متاحة للبيع',
+                'code' => 'ERROR',
+                'isSuccess' => false,
+            ]);
+        }
+    
         $order = new Order;
         $order->user_id = Auth::id();
-        $order->total_price = 0.00;
+        $order->total_price= $request->total_price;
         $order->date = now();
         $order->save();
 
