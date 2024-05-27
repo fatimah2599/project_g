@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\ApiResponses;
+//use App\Http\Traits\ApiResponses;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -12,7 +13,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use ApiResponses;
+   // use ApiResponses;
+
+    public function getUsers()
+    {
+        $users = User::all();
+        return response()->json($users);
+    }
 
     public function loginAdmin(Request $request)
     {
