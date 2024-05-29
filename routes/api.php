@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
+//Route::middleware(['auth:sanctum'])->group(function () {
     // Accessory Part Api's
     Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
     Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
@@ -64,18 +64,18 @@ Route::post('addReservationForCar', [ReservationController::class, 'addReservati
 //ordersSpareParts
 Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
 Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
-});
+//});
 #end region user
 
 
 #region admin
 
 
-  Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
+  //Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
         Route::prefix('admin')->group(function () {
-
             Route::group(['middleware'=>['admin']],function(){
  // Accessory Part Api's
+
         Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
         Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
     // Car Api's
@@ -87,13 +87,13 @@ Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSpa
 
             // SparePart Api's
         Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+
        Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
            // User Api's
         Route::delete('/getUsers', [UserController::class, 'getUsers']);
         Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
 
-
             });
-            });
+          });
 
 #end region admin
