@@ -11,6 +11,7 @@ use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrdersSparePartController;
+use App\Http\Traits\ApiResponses;
 use GuzzleHttp\Middleware;
 
 /*
@@ -72,21 +73,26 @@ Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSpa
 
   //Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
         Route::prefix('admin')->group(function () {
-       
-        Route::group(['middleware'=>['admin']],function(){
-        Route::get('/getUsers', [AuthController::class, 'getUsers']);
+            Route::group(['middleware'=>['admin']],function(){
+ // Accessory Part Api's
 
         Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
-        Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
-        Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
-        Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+        Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
+    // Car Api's
+
         Route::post('/updateCarInfoForBuying', [CarController::class, 'updateCarInfoForBuying']);
         Route::post('/updateCarInfoForReservation', [CarController::class, 'updateCarInfoForReservation']);
-        Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
-        Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
+        Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
+        Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
+
+            // SparePart Api's
+        Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
+
+       Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
+           // User Api's
+        Route::delete('/getUsers', [UserController::class, 'getUsers']);
         Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
-                 
-       
+
             });
           });
 
