@@ -11,6 +11,8 @@ use App\Http\Controllers\AccessoryPartController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrdersSparePartController;
+use App\Http\Controllers\ExternalMaintenanceController;
+
 use App\Http\Traits\ApiResponses;
 use GuzzleHttp\Middleware;
 
@@ -64,7 +66,11 @@ Route::post('addReservationForCar', [ReservationController::class, 'addReservati
 //ordersSpareParts
 Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
 Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
-//});
+
+// ExternalMaintenance Api's
+
+Route::post('/requestMaintenance', [ExternalMaintenanceController::class, 'requestMaintenance']);
+
 #end region user
 
 
