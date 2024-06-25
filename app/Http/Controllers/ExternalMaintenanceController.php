@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ExternalMaintenance;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,7 @@ class ExternalMaintenanceController extends Controller
 {
     public function requestMaintenance(Request $request)
     {
-        if (!Auth::check()) {
+        if (empty(Auth::user())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $user = Auth::user();
@@ -32,7 +33,8 @@ class ExternalMaintenanceController extends Controller
 
         $order = new Order;
         $order->user_id = $user->id;
-        $order->date = $request->date;
+        $order->date = Carbon::now();
+        $order->total_price = 0;
         $order->save();
 
         $maintenanceRequest =  new ExternalMaintenance;

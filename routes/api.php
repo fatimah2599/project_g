@@ -26,57 +26,50 @@ use GuzzleHttp\Middleware;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 #region user
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-//Route::middleware(['auth:sanctum'])->group(function () {
-// Accessory Part Api's
-Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
-Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
+Route::middleware('auth:sanctum')->group(function () {
+    // Accessory Part Api's
+    Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
+    Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
 
-// User Api's
-Route::post('/updateProfile', [UserController::class, 'updateProfile']);
+    // User Api's
+    Route::post('/updateProfile', [UserController::class, 'updateProfile']);
 
-// Car Api's
-Route::get('/getCarsForBuy', [CarController::class, 'getCarsForBuy']);
-Route::get('/getCarsForRent', [CarController::class, 'getCarsForRent']);
-Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
-Route::post('/sortByYear', [CarController::class, 'sortByYear']);
-Route::post('/searchByName', [CarController::class, 'searchByName']);
-Route::post('/searchByColor', [CarController::class, 'searchByColor']);
-Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
+    // Car Api's
+    Route::get('/getCarsForBuy', [CarController::class, 'getCarsForBuy']);
+    Route::get('/getCarsForRent', [CarController::class, 'getCarsForRent']);
+    Route::post('/sortByPrice', [CarController::class, 'sortByPrice']);
+    Route::post('/sortByYear', [CarController::class, 'sortByYear']);
+    Route::post('/searchByName', [CarController::class, 'searchByName']);
+    Route::post('/searchByColor', [CarController::class, 'searchByColor']);
+    Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
 
-// SparePart Api's
-Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
-Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
+    // SparePart Api's
+    Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
+    Route::post('/searchByNameSparePart', [SparePartController::class, 'searchByNameSparePart']);
 
-// Order Api's
-Route::get('/getOrders', [OrderController::class, 'getOrders']);
-Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
-// Reservation Api's
+    // Order Api's
+    Route::get('/getOrders', [OrderController::class, 'getOrders']);
+    Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
+    // Reservation Api's
 
-Route::post('getReservations', [ReservationController::class, 'getReservations']);
-Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
-//ordersSpareParts
-Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
-Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
+    Route::post('getReservations', [ReservationController::class, 'getReservations']);
+    Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+    //ordersSpareParts
+    Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
+    Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
 
-// ExternalMaintenance Api's
+    // ExternalMaintenance Api's
 
-Route::post('/requestMaintenance', [ExternalMaintenanceController::class, 'requestMaintenance']);
-
+    Route::post('/requestMaintenance', [ExternalMaintenanceController::class, 'requestMaintenance']);
+});
 #end region user
 
 
 #region admin
-
-
 //Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
 Route::prefix('admin')->group(function () {
     Route::group(['middleware' => ['admin']], function () {
