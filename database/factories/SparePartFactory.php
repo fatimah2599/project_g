@@ -22,6 +22,7 @@ class SparePartFactory extends Factory
             'company_id' => Company::all()->random()->id,
             'price' => rand(1100, 5100),
             'piece_number' => rand(0, 500),
+            'amount' => rand(1, 500),
             'name' => fake()->randomElement(['hhookk', 'pjjkkk']),
             'made' => fake()->randomElement(['kkge', 'lkppo']),
             'model' => fake()->randomElement(['jj100', 'kk500']),

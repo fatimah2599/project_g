@@ -26,16 +26,11 @@ use GuzzleHttp\Middleware;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 #region user
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-//Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     // Accessory Part Api's
     Route::get('/getAccessoryParts', [AccessoryPartController::class, 'getAccessoryParts']);
     Route::post('/accessoryPart/searchByName', [AccessoryPartController::class, 'searchByName']);
@@ -59,47 +54,50 @@ Route::post('/login', [AuthController::class, 'login']);
     // Order Api's
     Route::get('/getOrders', [OrderController::class, 'getOrders']);
     Route::post('addOrderForBuyCar', [OrderController::class, 'addOrderForBuyCar']);
-// Reservation Api's
+    // Reservation Api's
 
-Route::post('getReservations', [ReservationController::class, 'getReservations']);
-Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
-//ordersSpareParts
-Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
-Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
+    Route::post('getReservations', [ReservationController::class, 'getReservations']);
+    Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+    //ordersSpareParts
+    Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
+    Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
 
-// ExternalMaintenance Api's
+    // ExternalMaintenance Api's
 
-Route::post('/requestMaintenance', [ExternalMaintenanceController::class, 'requestMaintenance']);
-
+    Route::post('/requestMaintenance', [ExternalMaintenanceController::class, 'requestMaintenance']);
+});
 #end region user
 
 
 #region admin
-
-
-  //Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
-        Route::prefix('admin')->group(function () {
-            Route::group(['middleware'=>['admin']],function(){
- // Accessory Part Api's
+//Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
+Route::prefix('admin')->group(function () {
+    Route::group(['middleware' => ['admin']], function () {
+        // Accessory Part Api's
 
         Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
         Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
-    // Car Api's
+        // Car Api's
 
         Route::post('/updateCarInfoForBuying', [CarController::class, 'updateCarInfoForBuying']);
         Route::post('/updateCarInfoForReservation', [CarController::class, 'updateCarInfoForReservation']);
         Route::post('/storeCarForReservation', [CarController::class, 'storeCarForReservation']);
         Route::post('/storeCarForBuying', [CarController::class, 'storeCarForBuying']);
 
-            // SparePart Api's
+        // SparePart Api's
         Route::post('/storeSparePart', [SparePartController::class, 'storeSparePart']);
 
-       Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
-           // User Api's
+        Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
+        // User Api's
         Route::delete('/getUsers', [UserController::class, 'getUsers']);
         Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
 
-            });
-          });
+
+   // ExternalMaintenance Api's
+Route::put('/approveMaintenance/{id}', [ExternalMaintenanceController::class, 'approveMaintenance']);
+
+
+    });
+});
 
 #end region admin

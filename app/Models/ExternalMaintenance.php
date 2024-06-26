@@ -11,13 +11,13 @@ class ExternalMaintenance extends Model
 {
     use HasFactory;
     protected $table = "external_maintenances";
-    protected $fillable =['id','company_id','user_id','order_id','location'];
+    protected $fillable =['id','company_id','user_id','order_id','location','status'];
     protected $primarykey= "id";
     public $timestamps = true;
 
     public function company()
     {
-        return $this->belongsTo(Company::class,'company_id');
+     return $this->belongsTo(Company::class,'company_id');
     }
 
     public function user()
