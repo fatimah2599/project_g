@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('order_id')->nullable();
             $table->string('location');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

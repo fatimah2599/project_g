@@ -91,6 +91,12 @@ Route::prefix('admin')->group(function () {
         // User Api's
         Route::delete('/getUsers', [UserController::class, 'getUsers']);
         Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
+
+
+   // ExternalMaintenance Api's
+Route::put('/approveMaintenance/{id}', [ExternalMaintenanceController::class, 'approveMaintenance']);
+
+
     });
 });
 
