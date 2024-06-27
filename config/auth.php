@@ -45,6 +45,15 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins', // Ensure you have this provider defined
+        ],
+    ],
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins', // Ensure you have this provider defined
     ],
 
 
@@ -76,6 +85,8 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+
 
         // 'users' => [
         //     'driver' => 'database',

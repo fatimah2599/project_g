@@ -94,7 +94,7 @@ Route::prefix('admin')->group(function () {
 
 
    // ExternalMaintenance Api's
-Route::put('/approveMaintenance/{id}', [ExternalMaintenanceController::class, 'approveMaintenance']);
+Route::post('/approveMaintenance/{id}', [ExternalMaintenanceController::class, 'approveMaintenance']);
 
 
     });
