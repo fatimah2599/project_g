@@ -15,12 +15,6 @@ class AuthController extends Controller
 {
    // use ApiResponses;
 
-    public function getUsers()
-    {
-        $users = User::all();
-        return response()->json($users);
-    }
-
     public function loginAdmin(Request $request)
     {
         $validator = Validator::make($request->all(), [

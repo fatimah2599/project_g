@@ -4,17 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\AccessoryPartsOrder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Response;
 
 class AccessoryPartsOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getAccessoryPartsOrders()
     {
         $AccessoryPartsOrders = AccessoryPartsOrder::all();
-        return response()->json ( $AccessoryPartsOrders, Response::HTTP_SHOWED);
+
+        return $this->sendResponse([
+            'message' => "Action Successful",
+            'data' => $AccessoryPartsOrders,
+            'code' => "SUCCESS",
+        ]);
+
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.

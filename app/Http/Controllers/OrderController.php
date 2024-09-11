@@ -31,6 +31,14 @@ class OrderController extends Controller
     public function addOrderForBuyCar(Request $request)
     {
         $car = Car::find($request->car_id);
+        if (!$car) {
+            return $this->sendResponse([
+                'message' => 'السيارة المطلوبة غير موجودة',
+                'code' => 'ERROR',
+                'isSuccess' => false,
+            ]);
+        }
+
         if ($car->status != 1) {
             return $this->sendResponse([
                 'message' => 'هذه السيارة غير متاحة للبيع',
@@ -38,7 +46,7 @@ class OrderController extends Controller
                 'isSuccess' => false,
             ]);
         }
-    
+
         $order = new Order;
         $order->user_id = Auth::id();
         $order->total_price= $request->total_price;

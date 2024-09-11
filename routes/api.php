@@ -46,6 +46,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/searchByName', [CarController::class, 'searchByName']);
     Route::post('/searchByColor', [CarController::class, 'searchByColor']);
     Route::post('/searchByBrand', [CarController::class, 'searchByBrand']);
+   
+
 
     // SparePart Api's
     Route::get('/getSpareParts', [SparePartController::class, 'getSpareParts']);
@@ -57,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Reservation Api's
 
     Route::post('getReservations', [ReservationController::class, 'getReservations']);
-    Route::post('addReservationForCar', [ReservationController::class, 'addReservationForCar']);
+    Route::post('addReservationForCar/{id}', [ReservationController::class, 'addReservationForCar']);
     //ordersSpareParts
     Route::get('/getOrdersSpareParts', [OrdersSparePartController::class, 'getOrdersSpareParts']);
     Route::post('addOrderSparePart', [OrdersSparePartController::class, 'addOrderSparePart']);
@@ -70,13 +72,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 #region admin
-//Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
+Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
 Route::prefix('admin')->group(function () {
-    Route::group(['middleware' => ['admin']], function () {
+    Route::middleware('auth:sanctum','admin')->group(function () {
         // Accessory Part Api's
 
         Route::post('/storeAccessoryPart', [AccessoryPartController::class, 'storeAccessoryPart']);
         Route::post('/updateAccessoryPartInfo', [AccessoryPartController::class, 'updateAccessoryPartInfo']);
+        Route::post('/searchByNameAccessoryPart', [AccessoryPartController::class, 'searchByNameAccessoryPart']);
         // Car Api's
 
         Route::post('/updateCarInfoForBuying', [CarController::class, 'updateCarInfoForBuying']);
@@ -89,8 +92,8 @@ Route::prefix('admin')->group(function () {
 
         Route::post('/updateSparePartInfo', [SparePartController::class, 'updateSparePartInfo']);
         // User Api's
-        Route::delete('/getUsers', [UserController::class, 'getUsers']);
-        Route::delete('/deleteUsers', [UserController::class, 'deleteUsers']);
+        Route::get('/getUsers', [UserController::class, 'getUsers']);
+        Route::delete('/deleteUser/{userId}', [UserController::class, 'deleteUser']);
 
 
    // ExternalMaintenance Api's

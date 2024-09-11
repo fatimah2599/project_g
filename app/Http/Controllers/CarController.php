@@ -40,7 +40,7 @@ class CarController extends Controller
      */
     public function storeCarForReservation(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'brand' => 'required',
             'color' => 'required',
@@ -52,7 +52,6 @@ class CarController extends Controller
             'propulsion_type' => 'required',
             'production_year' => 'required',
             'amount' =>'required|numeric',
-            'status' => 'required',
             'number_of_rented' => 'required',
             'company_id' => 'required',
             'fuel_tank_capacity' => 'required',
@@ -62,9 +61,9 @@ class CarController extends Controller
         ]);
 
 
-        if ($request->fails()) {
+        if ($validator->fails()) {
             return $this->sendResponse([
-                'data' => $request->errors()->all(),
+                'data' => $validator->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,
@@ -74,7 +73,8 @@ class CarController extends Controller
         $car = new Car;
         $car->name = $request->name;
         $car->brand = $request->brand;
-        $car->color = implode(',', $request->color);
+        $car->color = is_array($request->color) ? implode(',', $request->color) : $request->color;
+        //$car->color = implode(',', $request->color);
         $car->engine_type = $request->engine_type;
         $car->price = $request->price;
         $car->engine_size = $request->engine_size;
@@ -114,7 +114,7 @@ class CarController extends Controller
 
     public function storeCarForBuying(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'brand' => 'required',
             'color' => 'required',
@@ -126,7 +126,6 @@ class CarController extends Controller
             'propulsion_type' => 'required',
             'production_year' => 'required',
             'amount' => 'required|numeric',
-            'status' => 'required',
            // 'number_of_rented' => 'required',
             'company_id' => 'required',
             'fuel_tank_capacity' => 'required',
@@ -135,9 +134,9 @@ class CarController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
         ]);
 
-        if ($request->fails()) {
+        if ($validator->fails()) {
             return $this->sendResponse([
-                'data' =>  $request->errors()->all(),
+                'data' =>  $validator->errors()->all(),
                 'message' => 'Validation failed',
                 'code' => 'VALIDATION_ERROE',
                 'isSuccess' => false,
@@ -154,15 +153,15 @@ class CarController extends Controller
         if ($existingCar) {
         // Increment the amount
         $existingCar->amount += $request->amount; // Increment the amount
-        $existingCar->color = implode(',', $request->color);
+        $existingCar->color = $request->color;
         $existingCar->engine_type = $request->engine_type;
         $existingCar->price = $request->price;
         $existingCar->engine_size = $request->engine_size;
         $existingCar->car_transmission = $request->car_transmission;
         $existingCar->propulsion_type = $request->propulsion_type;
-        $existingCar->status = $request->status;
         $existingCar->company_id = $request->company_id;
         $existingCar->fuel_tank_capacity = $request->fuel_tank_capacity;
+        $existingCar->status = 1;
         $existingCar->date = $request->date;
         $existingCar->save();
 
@@ -175,7 +174,7 @@ class CarController extends Controller
         $car = new Car;
         $car->name = $request->name;
         $car->brand = $request->brand;
-        $car->color = implode(',', $request->color);
+        $car->color = is_array($request->color) ? implode(',', $request->color) : $request->color;
         $car->engine_type = $request->engine_type;
         $car->price = $request->price;
         $car->engine_size = $request->engine_size;
@@ -278,7 +277,7 @@ class CarController extends Controller
         $car->update([
         'name' => $request->name,
         'brand' => $request->brand,
-        'color' => implode(',', $request->color),
+        'color' => $request->color,
         'engine_type' => $request->engine_type,
         'price' => $request->price,
         'engine_size' => $request->engine_size,
@@ -293,9 +292,9 @@ class CarController extends Controller
         'fuel_tank_capacity' => $request->fuel_tank_capacity,
         'millage' => $request->millage,
         'date' => $request->date
+
         ]);
 
-        
        // unset($user->confirm_password);
         return $this->sendResponse([
             'data' =>  $car,
@@ -359,7 +358,7 @@ class CarController extends Controller
         $car->update([
         'name' => $request->name,
         'brand' => $request->brand,
-        'color' => implode(',', $request->color),
+        'color' => $request->color,
         'engine_type' => $request->engine_type,
         'price' => $request->price,
         'engine_size' => $request->engine_size,
@@ -377,7 +376,7 @@ class CarController extends Controller
         'image' => $request->image
         ]);
 
-        
+
        // unset($user->confirm_password);
         return $this->sendResponse([
             'data' =>  $car,
@@ -385,13 +384,7 @@ class CarController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Car $car)
-    {
-        //
-    }
+
 
     public function searchByName(Request $request, Car $name)
     {
@@ -504,7 +497,7 @@ class CarController extends Controller
         if($order2){
             $cars = Car::orderBy('price',$order2)->get();
         }
-        
+
         if ($cars->isEmpty()) {
             return $this->sendResponse([
                 'data' => $cars->errors(),
@@ -519,7 +512,7 @@ class CarController extends Controller
             'code' => 'SUCCESS',
             'isSuccess' => true,
         ]);
-        
+
     }
 
     public function sortByYear(Request $request)

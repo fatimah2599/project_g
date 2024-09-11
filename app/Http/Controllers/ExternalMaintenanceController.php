@@ -69,7 +69,8 @@ public function requestMaintenance(Request $request)
 
          public function approveMaintenance($id)
     {
-        $user = Auth::user();
+        $user = auth()->user();
+
         if ($user->role !== 1) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
