@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -25,26 +26,6 @@ class UserController extends Controller
             'code' => "SUCCESS",
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
 
     public function updateProfile(Request $request)
     {
@@ -111,15 +92,6 @@ class UserController extends Controller
      */
     public function deleteUser($userId)
 {
-    if (!auth()->user()->is_admin) {
-        return $this->sendResponse([
-            'data' => [],
-            'message' => 'Unauthorized access',
-            'code' => 'UNAUTHORIZED',
-            'isSuccess' => false,
-        ]);
-    }
-
     $user = User::findOrFail($userId);
 
     if ($user->profile_photo_path) {

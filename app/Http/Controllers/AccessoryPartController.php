@@ -96,6 +96,7 @@ class AccessoryPartController extends Controller
             $request->image->move(public_path($path), $imageName);
             // store in database
             $accessoryPart->image = $imageName;
+            $accessoryPart->amount = $request->amount;
         }
 
         $accessoryPart->save();
@@ -166,11 +167,11 @@ class AccessoryPartController extends Controller
         'id' => $request->id,
         'name' => $request->name,
         'brand' => $request->brand,
-        'description' => implode(',', $request->color),
-        'material' => $request->engine_type,
+        'description' => $request->description,
+        'material' => $request->material,
         'price' => $request->price,
-        'feature' => $request->engine_size,
-        'availability_colors' => $request->car_transmission,
+        'feature' => $request->feature,
+        'availability_colors' => implode(',', $request->availability_colors),
         'model' => $request->model,
         'image' => $request->image
         ]);
@@ -191,7 +192,7 @@ class AccessoryPartController extends Controller
     }
 
 
-    public function searchByName(Request $request)
+    public function searchByNameAccessoryPart(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string']

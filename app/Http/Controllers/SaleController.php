@@ -48,8 +48,5 @@ class SaleController extends Controller
     }
 
 
-    // $sale = new Sale();
-    // $sale->car_id = $request->car_id;
-    // $sale->order_id = $order->id;
-    // $sale->save();
+
 }

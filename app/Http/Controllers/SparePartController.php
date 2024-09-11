@@ -72,6 +72,8 @@ class SparePartController extends Controller
         $sparePart->made = $request->made;
         $sparePart->piece_number= $request->piece_number;
         $sparePart->price = $request->price;
+        $sparePart->amount = $request->amount;
+
         // process image
         if ($request->file('image')) {
             // generate new image name
@@ -93,7 +95,7 @@ class SparePartController extends Controller
             'message' => 'Adding spare part done succefully'
         ]);
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -158,7 +160,7 @@ class SparePartController extends Controller
         'image' => $request->image
         ]);
 
-        
+
        // unset($user->confirm_password);
         return $this->sendResponse([
             'data' =>  $sparePart,
